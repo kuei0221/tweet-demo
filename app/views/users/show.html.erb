@@ -1,0 +1,11 @@
+<% provide(:title, "User Porfile")%>
+
+<div class="row">
+  <div class="col">
+    <ul>
+      <li>Name: <%= @user.name %></li>
+      <li>Email: <%= @user.email %></li>
+      <li><%= link_to "Edit", edit_user_path(@user) %></li>
+    </ul>
+  </div>
+</div>
