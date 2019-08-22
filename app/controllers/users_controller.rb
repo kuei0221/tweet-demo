@@ -1,11 +1,14 @@
 class UsersController < ApplicationController
+
+  before_action :find_user, only: [:show, :edit, :update, :correct_user?]
+  before_action :is_login?, only: [:show, :edit, :update]
+  before_action :correct_user?, only: [:edit, :update]
   
   def index
     @users = User.take(20)
   end
 
   def show
-    @user = User.find_by(id: params[:id])
   end
 
   def new
@@ -24,16 +27,14 @@ class UsersController < ApplicationController
   end
   
   def edit
-    @user = User.find_by(id: params[:id])
   end
 
   def update
-    @user = User.find_by(id: params[:id])
     if @user.update(user_params)
       flash[:success] = "Update success"
       redirect_to @user
     else
-      flash[:danger] = "Update fail"
+      flash.now[:danger] = "Update fail"
       render :edit
     end
   end
@@ -42,6 +43,24 @@ class UsersController < ApplicationController
   private
   def user_params
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
+  end
+
+  def find_user
+    @user = User.find_by(id: params[:id])
+  end
+
+  def is_login?
+    unless login?
+      flash[:danger] = "Please Login first !"
+      redirect_to login_path 
+    end
+  end
+
+  def correct_user?
+    unless current_user == @user
+      flash[:danger] = "You do not have enough authorization !"
+      redirect_to root_url 
+    end
   end
 
 
