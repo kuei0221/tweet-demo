@@ -11,7 +11,8 @@ require "faker"
 User.create(name: "adminstrator", 
             email: "testing@example.com", 
             password: "password", 
-            password_confirmation: "password")
+            password_confirmation: "password",
+            admin: true)
 
 99.times do |n|
   User.create(name: Faker::Name.name, 

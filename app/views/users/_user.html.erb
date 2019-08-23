@@ -3,5 +3,11 @@
   <div class="col">
     <%= link_to user.name, user_path(user) %>
     Email: <%= user.email %>
+    <% if login? %>
+      <% if current_user.admin? && !user.admin %>
+        <%= link_to "delete", user_path(user), method: "delete", 
+                                           data:{ confirmation: "Are you sure?"} %>
+      <% end %>
+    <% end %>
   </div>
 </li>

@@ -1,11 +1,12 @@
 class UsersController < ApplicationController
 
-  before_action :find_user, only: [:show, :edit, :update, :correct_user?]
-  before_action :is_login?, only: [:show, :edit, :update]
+  before_action :find_user, only: [:show, :edit, :update, :destroy,:correct_user?]
+  before_action :is_login?, only: [:show, :edit, :update, :destroy]
   before_action :correct_user?, only: [:edit, :update]
+  before_action :admin_user?, only: :destroy
   
   def index
-    @users = User.take(20)
+    @users = User.paginate(page: params[:page])
   end
 
   def show
@@ -31,13 +32,23 @@ class UsersController < ApplicationController
 
   def update
     #might have password confirmation problem/ try update_attribute
-    if @user.update(user_params)
+    if !params[:user][:password_confirmation].empty? && params[:user][:password].empty?
+      @user.errors.add(:base, "Should not leave the confirmation with password.")
+      flash.now[:danger] = "Update fail"
+      render :edit
+    elsif @user.update_attributes(user_params)
       flash[:success] = "Update success"
       redirect_to @user
     else
       flash.now[:danger] = "Update fail"
       render :edit
     end
+  end
+
+  def destroy
+    @user.destroy
+    flash[:success] = "User deleted."
+    redirect_to users_path
   end
 
 
@@ -62,6 +73,10 @@ class UsersController < ApplicationController
       flash[:danger] = "You do not have enough authorization !"
       redirect_to root_url 
     end
+  end
+
+  def admin_user?
+    redirect_to root_url unless current_user.admin?
   end
 
 

@@ -2,7 +2,8 @@
 
 <div class="row">
   <h1>All Users</h1>
-  <ul>
+  <%= will_paginate(@users) %>
+  <ul class="users">
     <%= render @users %>
   </ul>
 </div>

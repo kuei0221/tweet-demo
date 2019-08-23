@@ -13,16 +13,15 @@ class User < ApplicationRecord
                    
   has_secure_password
   validates :password, presence: true,
-                       length: {minimum: 8, maximum: 51}
+                       length: {minimum: 8, maximum: 51},
+                       allow_nil: true
   
   def remember
-    # byebug
     self.remember_token = User.new_token
     self.update_attribute(:remember_digest, User.digest(remember_token))
   end
 
   def forget
-    # byebug
     update_attribute(:remember_digest, nil)
   end
 

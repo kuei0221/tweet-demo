@@ -18,10 +18,24 @@ RSpec.feature "login", type: :feature do
     expect(page).to have_link "Logout"
 
     click_link "Profile"
-    expect(page).to have_current_path user_path(user.id)
+    expect(page).to have_current_path user_path user
 
     click_link "Edit"
-    expect(page).to have_current_path edit_user_path(user.id)
+    expect(page).to have_current_path edit_user_path user
+
+    fill_in "Password", with: "aaaaaaaaaa"
+    click_button "Update Information"
+    expect(page).to have_text "fail"
+
+    fill_in "Password confirmation", with: "aaaaaaaaaaa"
+    click_button "Update Information"
+    expect(page).to have_text "fail"
+
+    fill_in "Name", with: "new_name"
+    click_button "Update Information"
+    expect(page).to have_text "success"
+    expect(page).to have_current_path user_path user
+    
 
     click_link "Users"
     expect(page).to have_current_path users_path
