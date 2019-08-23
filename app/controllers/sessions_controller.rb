@@ -4,10 +4,12 @@ class SessionsController < ApplicationController
   end
 
   def create
+    # byebug
     user = User.find_by(email: params[:session][:email])
     if user && user.authenticate(params[:session][:password])
       #exist and correct password
-      login_as(user)
+      login_as user
+      params[:session][:remember_me] == "1" ? remember_as(user) : forget_as(user)
       flash[:success] = "login success"
       flash[:notice] = "#{current_user.name}, Welcome!"
       redirect_to user
@@ -19,6 +21,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
+    # byebug
     if login?
       logout
       flash[:success] = "Logout success"

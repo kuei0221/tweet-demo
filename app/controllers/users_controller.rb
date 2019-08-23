@@ -30,6 +30,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    #might have password confirmation problem/ try update_attribute
     if @user.update(user_params)
       flash[:success] = "Update success"
       redirect_to @user

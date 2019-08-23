@@ -77,14 +77,11 @@ RSpec.describe User, type: :model do
       end
   
       it "should not only with confirmation" do
-        
-        # user.password = ""
         @user = User.create(name: user.name, email: user.email, password_confirmation: "password")
         expect(@user.valid?).to eq(false)
       end
   
       it "should not only with confirmation" do
-        
         user = build(:user, password: "")
         user.save
         expect(user.valid?).to eq(false)
