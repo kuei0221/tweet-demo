@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
 
   describe "::create" do
-    let(:user) { build(:user) }
+    let(:user) { build(:new_user) }
     context "with user's name" do
       it "should not be blank" do
         user = build(:user, name: " ")
@@ -112,6 +112,32 @@ RSpec.describe User, type: :model do
       end
   
     end
+
+    context "with admin" do
+      it "should never be nil" do
+        user.save
+        expect(user.admin.nil?).to eq(false)
+      end
+
+      it "should be false by default" do
+        user.save
+        expect(user.admin).to eq(false)
+      end
+    end
+
+    context "with activate" do
+      let(:user) {create(:new_user) }
+      it "should be inactivate by default" do
+        expect(user.activated).to eq(false)
+      end
+
+      it "should auto set activated token and digest" do
+        expect(user.activated_token.empty?).to eq(false)
+        expect(user.activated_digest.empty?).to eq(false)
+      end
+      
+    end
+
   end
     
 end
