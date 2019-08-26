@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  attr_accessor :remember_token
-  attr_accessor :activated_token
+  attr_accessor :remember_token, :activated_token, :reset_token
 
   before_save :downcase_email
   before_create :create_account_activation
@@ -31,6 +30,15 @@ class User < ApplicationRecord
 
   def activate
     update_columns(activated: true, activated_at: Time.zone.now)
+  end
+
+  def set_reset
+    self.reset_token = User.new_token
+    self.update_attribute(:reset_digest, User.digest(reset_token))
+  end
+
+  def sent_reset_email
+    UserMailer.password_reset(self).deliver_now
   end
   
   def authenticate?(token_type, token)

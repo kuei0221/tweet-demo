@@ -139,5 +139,17 @@ RSpec.describe User, type: :model do
     end
 
   end
+
+  describe "#set reset" do
+    context "when called" do
+      let!(:user) { create(:user) }
+      it "should create reset token and reset digest" do
+        user.set_reset
+        user.reload
+        expect(user.reset_token).not_to eq(nil)
+        expect(user.reset_digest).not_to eq(nil)
+      end
+    end
+  end
     
 end
