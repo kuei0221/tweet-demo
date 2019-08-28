@@ -9,32 +9,33 @@ class User < ApplicationRecord
   validates :name, presence: true, 
                    length: { minimum: 6, maximum: 51}
 
-                   validates :email, presence: true,
-                   length: {maximum: 255},
-                   uniqueness: {case_sensitive: false},
-                   format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }
+  validates :email, presence: true,
+                    length: {maximum: 255},
+                    uniqueness: {case_sensitive: false},
+                    format: { with: /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i }
                    
   has_secure_password
   validates :password, presence: true,
                        length: {minimum: 8, maximum: 51},
                        allow_nil: true
+  has_many :microposts, dependent: :destroy
   
   def remember
     self.remember_token = User.new_token
-    self.update_attribute(:remember_digest, User.digest(remember_token))
+    self.update(remember_digest: User.digest(remember_token))
   end
 
   def forget
-    update_attribute(:remember_digest, nil)
+    update(remember_digest: nil)
   end
 
   def activate
-    update_columns(activated: true, activated_at: Time.zone.now)
+    update(activated: true, activated_at: Time.zone.now)
   end
 
   def set_reset
     self.reset_token = User.new_token
-    self.update_attribute(:reset_digest, User.digest(reset_token))
+    self.update(reset_digest: User.digest(reset_token))
   end
 
   def sent_reset_email
@@ -45,6 +46,10 @@ class User < ApplicationRecord
     digest = self.send("#{token_type}_digest")
     return false if digest.nil?
     BCrypt::Password.new(digest).is_password?(token)
+  end
+
+  def feed
+    microposts
   end
   
   def self.new_token

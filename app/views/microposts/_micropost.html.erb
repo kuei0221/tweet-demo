@@ -1,0 +1,8 @@
+<li>
+  <%= micropost.user.name %>
+  <%= micropost.content %>
+  <%= micropost.updated_at %>
+  <% if current_user?(micropost.user) %>
+    <%= link_to "delete", micropost_path(micropost), method: "delete", data: {confirm: "are you sure?"} %>
+  <% end %>
+</li>

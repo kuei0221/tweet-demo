@@ -20,9 +20,6 @@ RSpec.feature "login", type: :feature do
     click_link "Profile"
     expect(page).to have_current_path user_path user
 
-    click_link "Edit"
-    expect(page).to have_current_path edit_user_path user
-
     fill_in "Password", with: "aaaaaaaaaa"
     click_button "Update Information"
     expect(page).to have_text "fail"

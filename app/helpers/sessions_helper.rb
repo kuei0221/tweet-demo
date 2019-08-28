@@ -20,6 +20,10 @@ module SessionsHelper
     end
   end
 
+  def current_user?(user)
+    current_user == user
+  end
+
 
   def logout
     forget_as(current_user)

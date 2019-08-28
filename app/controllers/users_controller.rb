@@ -1,16 +1,17 @@
 class UsersController < ApplicationController
 
-  before_action :find_user, only: [:show, :edit, :update, :destroy,:correct_user?]
+  before_action :find_user, only: [:show, :edit, :update, :destroy]
   before_action :is_login?, only: [:show, :edit, :update, :destroy]
   before_action :correct_user?, only: [:edit, :update]
   before_action :activated_user?, only: [:show, :edit, :update, :destroy]
   before_action :admin_user?, only: :destroy
   
   def index
-    @users = User.where(activated: true).paginate(page: params[:page])
+    @users = User.where(activated: true).includes(:microposts).paginate(page: params[:page])
   end
 
   def show
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def new
@@ -63,19 +64,13 @@ class UsersController < ApplicationController
     @user = User.find_by(id: params[:id])
   end
 
-  def is_login?
-    unless login?
-      flash[:danger] = "Please Login first !"
-      redirect_to login_path 
-    end
-  end
-
   def correct_user?
+    @user = User.find_by(id: params[:id])
     unless current_user == @user
       flash[:danger] = "You do not have enough authorization !"
       redirect_to root_url 
     end
-  end
+  end  
 
   def admin_user?
     redirect_to root_url unless current_user.admin?

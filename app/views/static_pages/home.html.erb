@@ -1,2 +1,30 @@
 <% provide(:title, "Home") %>
-<h1>home</h1>
+<%= render "shared/error_messages", object: @micropost %>
+
+<% if login? %>
+  <div class = "row">
+    <div class="col-4">
+      <%= render "shared/user_info", user: current_user %>
+      
+      <div class="card mt-3">
+        <div class="body">
+          <%= form_for(@micropost, url: microposts_path) do |f| %>
+            
+            <%= f.text_area :content, class: "form-control", placeholder: "New Post" %>
+    
+            <%= f.submit "Create new post", class: "btn btn-primary btn-lg btn-block" %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <h3>Micropost Feed</h3>
+      <%= render "shared/feed" %>
+    </div>
+        
+  </div>
+<% else %>
+  <%= link_to "Login in", login_path %>
+  <%= link_to "Haven't sign up?", signup_path %>
+<% end %>

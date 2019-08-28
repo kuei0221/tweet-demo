@@ -1,13 +1,16 @@
-
-<li>
-  <div class="col">
+<tr>
+  <td>
     <%= link_to user.name, user_path(user) %>
-    Email: <%= user.email %>
+  </td>
+  <td>
+    <%= user.feed.size %>
+  </td>
+  <td>
     <% if login? %>
       <% if current_user.admin? && !user.admin %>
         <%= link_to "delete", user_path(user), method: "delete", 
                                            data:{ confirmation: "Are you sure?"} %>
       <% end %>
     <% end %>
-  </div>
-</li>
+  </td>
+</tr>

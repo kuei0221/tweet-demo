@@ -15,11 +15,12 @@ RSpec.describe User, type: :model do
         user = build(:user, name: "a" *52)
         user.save
         expect(user.valid?).to eq(false)
+        #expect(user).to be_valid
       end
   
       it "should not shorter than 6 words" do
         user = build(:user, name: " ")
-        user.save
+        # user.save valid>save
         expect(user.valid?).to eq(false)
       end
     end
