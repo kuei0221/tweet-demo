@@ -1,9 +1,24 @@
 <tr>
   <td>
-    <%= link_to user.name, user_path(user) %>
+    <p>
+      <% if user.avatar.attached? %>
+        <%= image_tag user.avatar, style: "height: 100px; width: 100px"%>
+      <% end %>
+      <%= link_to user.name, user_path(user) %>
+      <small class="text-muted">
+        ． <%= user.feed.size %> posts
+      </small>
+    </p>
   </td>
   <td>
-    <%= user.feed.size %>
+    <% if user.microposts.first.present? %>
+      <p class="py-2">
+        <%= user.microposts.first.content %>
+      </p>
+      <p class= "text-muted font-weight-light align-bottom">
+        <%= time_ago_in_words(user.microposts.first.updated_at) %> ago
+      </p>
+    <% end %>
   </td>
   <td>
     <% if login? %>

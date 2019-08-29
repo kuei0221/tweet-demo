@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   attr_accessor :remember_token, :activated_token, :reset_token
 
+  scope :activated, -> { where(activated: true)}
+
   before_save :downcase_email
   before_create :create_account_activation
 
@@ -19,6 +21,7 @@ class User < ApplicationRecord
                        length: {minimum: 8, maximum: 51},
                        allow_nil: true
   has_many :microposts, dependent: :destroy
+  has_one_attached :avatar
   
   def remember
     self.remember_token = User.new_token

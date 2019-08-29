@@ -1,7 +1,12 @@
 <div class="card">
-  <img src="#" alt="#" class="card-img-top">
+  <% if user.avatar.attached? %>
+    <%= image_tag user.avatar, class: "card-img-top" %>
+  <% end %>
   <div class="card-body">
     <h5 class="card-title"><%= user.name %></h5>
     <p class="card-text"><%= user.email%></p>
+    <% if current_user?(user) %>
+      <%= link_to "Edit", edit_user_path(user), class: "btn btn-sm btn-secondary" %>
+    <% end %>
   </div>
 </div>

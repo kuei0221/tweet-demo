@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe UserMailer, type: :mailer do
   describe "#account_activation" do
     context "when activate new account" do
-      let(:user) { create(:new_user) }
+      let(:user) { create(:user, :inactivated) }
 
       it "should send email" do
         mail = UserMailer.account_activation(user)

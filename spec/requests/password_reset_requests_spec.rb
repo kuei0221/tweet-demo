@@ -25,7 +25,7 @@ RSpec.describe "Password Reset", type: :request do
     end
 
     it "should not send to the inactive email" do
-      new_user = create(:new_user)
+      new_user = create(:user, :inactivated)
       post password_resets_path, params: {password_reset: { email: new_user.email }}
       expect(ActionMailer::Base::deliveries.size).to eq(0)
       expect(response).to render_template :new

@@ -17,7 +17,6 @@ class SessionsController < ApplicationController
         redirect_to root_url
       end
     else
-      #not exist
       flash.now[:danger] = "Login fail"
       render :new
     end
@@ -25,7 +24,6 @@ class SessionsController < ApplicationController
 
 
   def destroy
-    # byebug
     if login?
       logout
       flash[:success] = "Logout success"

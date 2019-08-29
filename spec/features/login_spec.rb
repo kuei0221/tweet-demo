@@ -5,12 +5,13 @@ RSpec.feature "login", type: :feature do
   # background do
   # end
   let(:user) { create(:user) }
-  let(:other_user) { create(:other_user) }
+  let(:other_user) { create(:user) }
 
   scenario "when login with valid info" do
     visit login_path
     expect(page).to have_current_path login_path
 
+    
     fill_in "Email", with: user.email
     fill_in "Password", with: user.password
     click_button "Login"
@@ -19,6 +20,11 @@ RSpec.feature "login", type: :feature do
 
     click_link "Profile"
     expect(page).to have_current_path user_path user
+
+    within(".card .card-body") do
+      click_link "Edit"
+    end
+    expect(page).to have_current_path edit_user_path user
 
     fill_in "Password", with: "aaaaaaaaaa"
     click_button "Update Information"
@@ -40,8 +46,7 @@ RSpec.feature "login", type: :feature do
     visit user_path(other_user.id)
     expect(page).to have_current_path user_path(other_user.id)
 
-    click_link "Edit"
-    expect(page).to have_current_path root_url
+    expect(page).not_to have_link "Edit"
 
     click_link "Logout"
     expect(page).to have_current_path root_url

@@ -1,8 +1,23 @@
-<li>
-  <%= micropost.user.name %>
-  <%= micropost.content %>
-  <%= micropost.updated_at %>
+<!-- <li>
   <% if current_user?(micropost.user) %>
     <%= link_to "delete", micropost_path(micropost), method: "delete", data: {confirm: "are you sure?"} %>
   <% end %>
-</li>
+</li> -->
+
+<div class="card my-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      <%= micropost.user.name %>
+      <small class="card-subtitle text-muted">
+        ． <%= time_ago_in_words(micropost.updated_at) %> ago
+      </small>
+    </h5>
+    <%= micropost.content %>
+
+  </div>
+  <div class="card-footer">
+    <%= link_to "comment", "#", class: "btn btn-sm btn-secondary mr-3"%>
+    <%= link_to "shared", "#", class: "btn btn-sm btn-secondary mr-3" %>
+    <%= link_to "like", "#", class: "btn btn-sm btn-secondary" %>
+  </div>
+</div>
