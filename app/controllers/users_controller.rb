@@ -9,10 +9,11 @@ class UsersController < ApplicationController
   
   def index
     @users = User.activated.with_attached_avatar.includes(:microposts).paginate(page: params[:page])
+    @user = User.with_attached_avatar.includes(:microposts, :following).find(current_user.id)
   end
 
   def show
-    @microposts = @user.microposts.paginate(page: params[:page], per_page: 15)
+    @microposts = @user.microposts.with_attached_picture.paginate(page: params[:page], per_page: 15)
   end
 
   def new
@@ -22,7 +23,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      UserMailer.account_activation(@user).deliver_now
+      @user.send_email(:account_activation)
       flash[:success] = "Sign up success! Please Check your email for activation"
       redirect_to root_url
     else
@@ -55,6 +56,20 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
+  def following
+    @title = "Following"
+    @user = User.with_attached_avatar.includes(:microposts, :following).find(params[:id])
+    @users = @user.following.with_attached_avatar.includes(:microposts).paginate(page: params[:page])
+    render "show_follow"
+  end
+
+  def followers
+    @title = "Followers"
+    @user = User.with_attached_avatar.includes(:microposts, :following).find(params[:id])
+    @users = @user.followers.with_attached_avatar.includes(:microposts).paginate(page: params[:page])
+    render "show_follow"
+  end
+
 
   private
   def user_params
@@ -71,7 +86,7 @@ class UsersController < ApplicationController
 
   def check_user
     @user = User.find_by(id: params[:id])
-    unless current_user == @user
+    unless current_user?(@user)
       flash[:danger] = "You do not have enough authorization !"
       redirect_to root_url 
     end

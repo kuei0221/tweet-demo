@@ -5,8 +5,8 @@ module LoginHelper
 
 
   def is_rememberred?(user)
-    !cookies[:remember_token].nil? && 
-    !user.remember_digest.nil? && 
+    cookies[:remember_token].present? && 
+    user.remember_digest.present? && 
     user.authenticate?(:remember, cookies[:remember_token])
   end
 end

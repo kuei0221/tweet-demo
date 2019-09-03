@@ -1,4 +1,16 @@
 class User < ApplicationRecord
+
+  has_many :microposts, dependent: :destroy
+  has_many :active_relationships, class_name: "Relationship", 
+                                  foreign_key: "follower_id", 
+                                  dependent: :destroy
+  has_many :passive_relationships, class_name: "Relationship",
+                                   foreign_key: "followed_id",
+                                   dependent: :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
+  has_one_attached :avatar
+  
   attr_accessor :remember_token, :activated_token, :reset_token
 
   scope :activated, -> { where(activated: true)}
@@ -18,14 +30,11 @@ class User < ApplicationRecord
                    
   has_secure_password
   validates :password, presence: true,
-                       length: {minimum: 8, maximum: 51},
+                       length: { minimum: 8, maximum: 51 },
                        allow_nil: true
-  has_many :microposts, dependent: :destroy
-  has_one_attached :avatar
-  
   def remember
-    self.remember_token = User.new_token
-    self.update(remember_digest: User.digest(remember_token))
+    remember_token = User.new_token
+    update(remember_digest: User.digest(remember_token))
   end
 
   def forget
@@ -41,9 +50,9 @@ class User < ApplicationRecord
     self.update(reset_digest: User.digest(reset_token))
   end
 
-  def sent_reset_email
-    UserMailer.password_reset(self).deliver_now
-  end
+  def send_email subject
+    UserMailer.send(subject, self).deliver_now if UserMailer.respond_to?(subject)
+  end 
   
   def authenticate?(token_type, token)
     digest = self.send("#{token_type}_digest")
@@ -52,7 +61,22 @@ class User < ApplicationRecord
   end
 
   def feed
-    microposts
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE  follower_id = :user_id"
+    Micropost.where("user_id IN (#{following_ids})
+                     OR user_id = :user_id ", user_id: id)
+  end
+
+  def follow(other_user)
+    following << other_user
+  end
+
+  def unfollow(other_user)
+    following.delete(other_user)
+  end
+
+  def follow?(other_user)
+    following.include?(other_user)
   end
   
   def self.new_token

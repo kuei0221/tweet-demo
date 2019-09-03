@@ -1,0 +1,7 @@
+<% unless current_user?(user) %>
+  <% if @current_user.follow?(user) %>
+    <%= render "unfollow", user: user %>
+  <% else %>
+    <%= render "follow", user: user %>
+  <% end %>
+<% end %>

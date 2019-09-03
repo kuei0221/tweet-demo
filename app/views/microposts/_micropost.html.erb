@@ -7,12 +7,16 @@
 <div class="card my-3">
   <div class="card-body">
     <h5 class="card-title">
+      <%= image_tag micropost.user.avatar, style: "height: 50px" if micropost.user.avatar.attached? %>
       <%= micropost.user.name %>
-      <small class="card-subtitle text-muted">
+      <small class="text-muted">
         ． <%= time_ago_in_words(micropost.updated_at) %> ago
       </small>
     </h5>
-    <%= micropost.content %>
+    <p class="card-text">
+      <%= micropost.content %>
+    </p>
+    <%= image_tag micropost.picture if micropost.picture.attached? %>
 
   </div>
   <div class="card-footer">

@@ -1,0 +1,16 @@
+<tr>
+  <td>
+    <p>
+      <% if user.avatar.attached? %>
+        <%= image_tag user.avatar, style: "height: 100px; width: 100px"%>
+      <% end %>
+      <%= link_to user.name, user_path(user) %>
+      <small class="text-muted">
+        ． <%= user.micorposts.size %> posts
+      </small>
+    </p>
+  </td>
+  <td>
+    Unfollow button
+  </td>
+</tr>

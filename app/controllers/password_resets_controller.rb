@@ -10,7 +10,7 @@ class PasswordResetsController < ApplicationController
     @user = User.find_by(email: params[:password_reset][:email].downcase)
     if @user && @user.activated?
       @user.set_reset
-      @user.sent_reset_email
+      @user.send_email(:password_reset)
       flash[:notice] = "Email has been sent"
       redirect_to login_path
     else

@@ -1,0 +1,6 @@
+<%= form_for(:follow, url: relationships_path) do |f| %>
+  <div>
+    <%= hidden_field_tag :followed_id, user.id %>
+  </div>
+  <%= f.submit "follow", class: "btn btn-primary" %>
+<% end %>

@@ -1,31 +1,38 @@
 <tr>
   <td>
     <p>
-      <% if user.avatar.attached? %>
-        <%= image_tag user.avatar, style: "height: 100px; width: 100px"%>
-      <% end %>
+      <%= image_tag user.avatar, style: "height: 100px; width: 100px" if user.avatar.attached? %>
       <%= link_to user.name, user_path(user) %>
       <small class="text-muted">
-        ． <%= user.feed.size %> posts
+        ． <%= user.microposts.size %> posts
       </small>
     </p>
   </td>
   <td>
-    <% if user.microposts.first.present? %>
-      <p class="py-2">
-        <%= user.microposts.first.content %>
-      </p>
-      <p class= "text-muted font-weight-light align-bottom">
-        <%= time_ago_in_words(user.microposts.first.updated_at) %> ago
-      </p>
-    <% end %>
-  </td>
-  <td>
     <% if login? %>
-      <% if current_user.admin? && !user.admin %>
-        <%= link_to "delete", user_path(user), method: "delete", 
-                                           data:{ confirmation: "Are you sure?"} %>
-      <% end %>
+    <div class="row">
+      <div class="col-8">
+        <% if @title == "Followers" %>
+          <%= "nothing" %>
+        <% elsif @user.follow?(user) %>
+          <%= render "users/unfollow", user: user %>
+        <% else %>
+          <%= form_tag relationships_path do %>
+            <div>
+              <%= hidden_field_tag :followed_id, user.id %>
+            </div>
+            <%= submit_tag "follow", class: "btn btn-primary" %>
+          <% end %>
+        <% end %>
+        
+      </div>
+      <div class="col-4">
+        <% if current_user.admin? && !user.admin %>
+          <%= link_to "delete", user_path(user), method: "delete", 
+                                            data:{ confirmation: "Are you sure?"} %>
+        <% end %>
+      </div>
+    </div>
     <% end %>
   </td>
 </tr>

@@ -6,9 +6,11 @@ RSpec.describe "login process", type: :request do
     context "with remember me" do
       it "should be success" do
         post login_path, params: { session: { email: user.email, 
-                                                       password: user.password,
-                                                       remember_me: "1" }}
+                                              password: user.password,
+                                              remember_me: "1" }}
         expect(is_logged_in?).to eq(true)
+        user.reload
+        puts cookies[:remember_token]
         expect(is_rememberred?(user.reload)).to eq(true)
 
         delete logout_path

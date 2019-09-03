@@ -1,7 +1,10 @@
 <% if object.errors.any? %>
 <ul>
+  <p class="alert alert-warning list-unstyles">
+    <%= object.errors.full_messages.count %> error occurred.
+  </p>
   <% object.errors.full_messages.each do |error| %>
-    <li><%= error %></li>
+    <li class="alert alert-warning list-unstyled"> ．<%= error %></li>
   <% end %>
 </ul>
 <% end %>

@@ -1,28 +1,29 @@
 <% provide(:title, "Home") %>
 
 <% if login? %>
-<div class = "row">
-  <div class="col-4">
-      <%= render "shared/error_messages", object: @micropost %>
-      <%= render "shared/user_info", user: current_user %>
+  <div class = "row">
+    <div class="col-4">
+        <%= render "shared/error_messages", object: @micropost %>
+        <%= render "shared/user_info", user: current_user %>
+        
+        <div class="card mt-3">
+          <div class="body">
+            <%= form_for(@micropost, url: microposts_path) do |f| %>
+              
+              <%= f.text_area :content, class: "form-control", placeholder: "New Post" %>
       
-      <div class="card mt-3">
-        <div class="body">
-          <%= form_for(@micropost, url: microposts_path) do |f| %>
-            
-            <%= f.text_area :content, class: "form-control", placeholder: "New Post" %>
-    
-            <%= f.submit "Create new post", class: "btn btn-primary btn-lg btn-block" %>
-          <% end %>
+              <%= f.submit "Create new post", class: "btn btn-primary btn-lg btn-block" %>
+              <%= f.file_field :picture %>
+            <% end %>
 
+          </div>
         </div>
       </div>
+      <div class="col-md-8">
+        <h3 class="text-center">Micropost Feed</h3>
+        <%= render "shared/feed" %>
+      </div>
     </div>
-    <div class="col-md-8">
-      <h3 class="text-center">Micropost Feed</h3>
-      <%= render "shared/feed" %>
-    </div>
-        
   </div>
 <% else %>
   <%= link_to "Login in", login_path %>

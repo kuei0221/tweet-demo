@@ -1,9 +1,12 @@
-<% provide(:title, "All Users") %>
+<% provide(:title, @title)%>
 
-<div class="row justify-content-center">
-  <div class="col-10">
-    <h1>All Users</h1>
-    <%= will_paginate(@users) %>
+<div class="row">
+  <div class="col-4">
+    <%= render "shared/user_info", user: @user %>
+  </div>
+  <div class="col-8">
+    <h3 class="text-center"><%= @title %></h3>
+    <%= will_paginate @users %>
     <table class="table table-hover">
       <thead class="thead-light">
         <tr>

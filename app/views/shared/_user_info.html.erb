@@ -1,10 +1,24 @@
 <div class="card">
-  <% if user.avatar.attached? %>
-    <%= image_tag user.avatar, class: "card-img-top" %>
-  <% end %>
+  <%= image_tag user.avatar, class: "card-img-top" if user.avatar.attached? %>
   <div class="card-body">
-    <h5 class="card-title"><%= user.name %></h5>
-    <p class="card-text"><%= user.email%></p>
+    <div class="row">
+      <div class="col-8">
+        <h5 class="card-title"><%= user.name %></h5>
+        <p class="card-subtitle text-muted"><%= user.email%></p>
+      </div>
+      <div class="col-4">
+       <%= render "users/follow_form", user: user %>
+      </div>
+    </div>
+    <div class="row py-3">
+      <div class="col">
+        <%= link_to "Followers: #{user.followers.count}", followers_user_path(user) %>
+      </div>
+      <div class="col">
+        <%= link_to "Following: #{user.following.count}", following_user_path(user) %>
+      </div>
+    </div>
+
     <% if current_user?(user) %>
       <%= link_to "Edit", edit_user_path(user), class: "btn btn-sm btn-secondary" %>
     <% end %>
