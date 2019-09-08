@@ -1,4 +1,6 @@
 <% provide(:title, "Sign up") %>
 <% provide(:button_text, "Sign up") %>
+<% provide(:path, users_path) %>
+<% provide(:method, "post") %>
 
-<%= render "form", user: @user %>
+<%= render "form", former: @register %>

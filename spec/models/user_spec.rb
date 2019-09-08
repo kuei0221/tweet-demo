@@ -4,34 +4,34 @@ RSpec.describe User, type: :model do
 
   describe "::create" do
     let(:user) { build(:user, :inactivated) }
+    let(:register) { UserRegisterForm.new(user.attributes.slice("name", "email", "password", "password_confirmation")) } 
     context "with user's name" do
       it "should not be blank" do
         user = build(:user, name: " ")
-        expect(user).not_to be_valid
+        expect(register.save).to be false
       end
-  
+
       it "should not longer than 51 words" do
         user = build(:user, name: "a" *52)
-        expect(user).not_to be_valid
+        expect(register.save).to be false
       end
-  
+      
       it "should not shorter than 6 words" do
         user = build(:user, name: " ")
-        expect(user).not_to be_valid
-        
+        expect(register.save).to be false
       end
     end
-  
+    
     context "with user's email" do
-  
+      
       it "should not be blank" do
         user = build(:user, email: " ")
-        expect(user).not_to be_valid
+        expect(register.save).to be false
       end
-  
+      
       it "should not longer thant 255 words" do
         user = build(:user, email: "a" * 244 + "@example.com")
-        expect(user).not_to be_valid
+        expect(register.save).to be false
       end
       
       it "should not be repulicate" do
@@ -45,12 +45,12 @@ RSpec.describe User, type: :model do
         user2 = build(:user, email: "TEST1@email.com")
         expect(user2).not_to be_valid
       end
-      
+      #
       it "should be a valid address" do
         invalid_emails = %w[ example example@ @example example@test example@test. example@test.com.]
         invalid_emails.each do |mail|
-          user.email = mail
-          expect(user).not_to be_valid
+          user = build(:user, email: mail)
+          expect(register.save).to be false
         end
       end
   
@@ -115,21 +115,23 @@ RSpec.describe User, type: :model do
       it "should be inactivate by default" do
         expect(user.activated).to be false
       end
-
-      it "should auto set activated token and digest" do
+      #
+      it "should set activated token and digest after call authenticator" do
+        User::Authenticator.new(user, :activated, :account_activated).set
         expect(user.activated_token).to be_present
         expect(user.activated_digest).to be_present
       end
       
     end
-
+    
   end
-
+  
   describe "#set reset" do
     context "when called" do
       let!(:user) { create(:user) }
+    #
       it "should create reset token and reset digest" do
-        user.set_reset
+        User::Authenticator.new(user, :reset, :password_reset).set
         user.reload
         expect(user.reset_token).to be_present
         expect(user.reset_digest).to be_present

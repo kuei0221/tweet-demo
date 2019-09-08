@@ -12,10 +12,10 @@
     </div>
     <div class="row py-3">
       <div class="col">
-        <%= link_to "Followers: #{user.followers.count}", followers_user_path(user) %>
+        <%= link_to "Followers: #{user.followers.size}", followers_user_path(user) %>
       </div>
       <div class="col">
-        <%= link_to "Following: #{user.following.count}", following_user_path(user) %>
+        <%= link_to "Following: #{user.following.size}", following_user_path(user) %>
       </div>
     </div>
 

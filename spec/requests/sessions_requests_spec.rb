@@ -10,7 +10,6 @@ RSpec.describe "login process", type: :request do
                                               remember_me: "1" }}
         expect(is_logged_in?).to eq(true)
         user.reload
-        puts cookies[:remember_token]
         expect(is_rememberred?(user.reload)).to eq(true)
 
         delete logout_path

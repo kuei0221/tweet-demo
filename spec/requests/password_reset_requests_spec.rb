@@ -30,9 +30,9 @@ RSpec.describe "Password Reset", type: :request do
       expect(ActionMailer::Base::deliveries.size).to eq(0)
       expect(response).to render_template :new
     end
-
+    
     it "should enter edit page with token & email" do
-      user.set_reset 
+      User::Authenticator.new(user, :reset, :password_reset).set 
       get edit_password_reset_path(user.reset_token, email: user.email)
       expect(response).to render_template :edit
     end
@@ -42,7 +42,7 @@ RSpec.describe "Password Reset", type: :request do
   context "when update password" do
     let(:user) { create(:user) }
     before :each do
-      user.set_reset
+      User::Authenticator.new(user, :reset, :password_reset).set
       @valid_params = {
         id: user.reset_token,
         email: user.email,
@@ -51,6 +51,7 @@ RSpec.describe "Password Reset", type: :request do
           password_confirmation: "foobarzoo"
         }}
     end
+    
     it "should success with valid data" do
       patch password_reset_path(user.reset_token), params: @valid_params
       expect(response).to redirect_to user
@@ -62,19 +63,19 @@ RSpec.describe "Password Reset", type: :request do
       patch password_reset_path(user.reset_token), params: @valid_params
       expect(response).to render_template :edit
     end
-
+    
     it "shoulde be invalid with wrong token" do
       @valid_params[:id] = "wrong token"
       patch password_reset_path("wrong token"), params: @valid_params
       expect(response).to redirect_to root_url
     end
-
+    
     it "shoulde be invalid with wrong email" do
       @valid_params[:email] = ""
       patch password_reset_path(user.reset_token), params: @valid_params
       expect(response).to redirect_to root_url
     end
-
+    
     it "shoulde be invalid with wrong password/confirmation" do
       @valid_params[:user][:password] = "foobarzoo"
       @valid_params[:user][:password_confirmation] = "notcomfirmed"

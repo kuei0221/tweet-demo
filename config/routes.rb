@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
   resources :users do
     member do
-      get :following, :followers
+      get :following, to: "relationships#index", relationship: :following
+      get :followers, to: "relationships#index", relationship: :followers
     end
   end
   resources :account_activations, only: :edit

@@ -1,29 +1,28 @@
 class UsersController < ApplicationController
 
   before_action :find_user_with_avatar, only: [ :edit, :update]
-  before_action :find_user_with_avatar_and_microposts, only: :show
   before_action :is_login?, only: [:show, :edit, :update, :destroy]
   before_action :check_user, only: [:edit, :update]
   before_action :check_activated, only: [:show, :edit, :update, :destroy]
-  before_action :check_admin, only: :destroy
   
   def index
-    @users = User.activated.with_attached_avatar.includes(:microposts).paginate(page: params[:page])
-    @user = User.with_attached_avatar.includes(:microposts, :following).find(current_user.id)
+    @users = User.activated.with_attached_avatar.paginate(page: params[:page]) 
+    @user = User.with_attached_avatar.includes(:following).find(current_user.id) if login?
   end
 
   def show
+    @user = User.with_attached_avatar.includes(:microposts).find(params[:id])
     @microposts = @user.microposts.with_attached_picture.paginate(page: params[:page], per_page: 15)
   end
 
   def new
-    @user = User.new
+    @register = UserRegisterForm.new
   end
-
+  
   def create
-    @user = User.new(user_params)
-    if @user.save
-      @user.send_email(:account_activation)
+    @register = UserRegisterForm.new(user_params)
+    if @register.save
+      User::Authenticator.new(@register.user, :activated, :account_activation).perform
       flash[:success] = "Sign up success! Please Check your email for activation"
       redirect_to root_url
     else
@@ -33,14 +32,12 @@ class UsersController < ApplicationController
   end
   
   def edit
+    @updater = UserUpdateForm.new(@user.attributes.slice("name", "email", "avatar"), @user)
   end
 
   def update
-    if params[:user][:password_confirmation].present? && params[:user][:password].empty?
-      @user.errors.add(:base, "Should not leave the confirmation with password.")
-      flash.now[:danger] = "Update fail"
-      render :edit
-    elsif @user.update(user_params)
+    @updater = UserUpdateForm.new(user_params, @user)
+    if @updater.update
       flash[:success] = "Update success"
       redirect_to @user
     else
@@ -50,26 +47,12 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find_by(id: params[:id])
+    check_admin
+    @user = User.find(params[:id])
     @user.destroy
     flash[:success] = "User deleted."
     redirect_to users_path
   end
-
-  def following
-    @title = "Following"
-    @user = User.with_attached_avatar.includes(:microposts, :following).find(params[:id])
-    @users = @user.following.with_attached_avatar.includes(:microposts).paginate(page: params[:page])
-    render "show_follow"
-  end
-
-  def followers
-    @title = "Followers"
-    @user = User.with_attached_avatar.includes(:microposts, :following).find(params[:id])
-    @users = @user.followers.with_attached_avatar.includes(:microposts).paginate(page: params[:page])
-    render "show_follow"
-  end
-
 
   private
   def user_params
@@ -77,15 +60,12 @@ class UsersController < ApplicationController
   end
 
   def find_user_with_avatar
-    @user = User.with_attached_avatar.find_by(id: params[:id])
+    @user = User.with_attached_avatar.find(params[:id])
   end
 
-  def find_user_with_avatar_and_microposts
-    @user = User.with_attached_avatar.includes(:microposts).find_by(id: params[:id])
-  end
 
   def check_user
-    @user = User.find_by(id: params[:id])
+    @user = User.find(params[:id])
     unless current_user?(@user)
       flash[:danger] = "You do not have enough authorization !"
       redirect_to root_url 

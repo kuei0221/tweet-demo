@@ -1,11 +1,13 @@
 <div class="row justify-content-center ">
   <div class="col-4 pb-5">
-    <%= form_for(user) do |f| %>
+    <%= form_for(former, url: yield(:path), method: yield(:method)) do |f| %>
       <%= render "shared/error_messages" , object: f.object %>
 
       <div class="form-group">
-        <% if user.avatar.attached? %>
-          <%= image_tag user.avatar %>
+        <% if former.user.avatar.attached? %>
+          <%= image_tag former.user.avatar %>
+        <% else %>
+          <%= image_tag "sample-avatar.jpg" %>
         <% end %>
         <%= f.file_field :avatar %>
       </div>

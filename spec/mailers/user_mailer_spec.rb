@@ -4,8 +4,8 @@ RSpec.describe UserMailer, type: :mailer do
   describe "#account_activation" do
     context "when activate new account" do
       let(:user) { create(:user, :inactivated) }
-
       it "should send email" do
+        User::Authenticator.new(user, :activated, :account_activation).set 
         mail = UserMailer.account_activation(user)
         expect(mail.to).to eq([user.email])
         expect(mail.from).to eq(["noreply@example.com"])
@@ -15,12 +15,12 @@ RSpec.describe UserMailer, type: :mailer do
       end
     end
   end
-
+  
   describe "#password_reset" do
     context "When password reset" do
       let(:user) { create(:user) }
       it "should send correct mail" do
-        user.set_reset
+        User::Authenticator.new(user, :reset, :password_reset).set 
         mail = UserMailer.password_reset(user)
         expect(mail.to).to eq([user.email])
         expect(mail.from).to eq(["noreply@example.com"])

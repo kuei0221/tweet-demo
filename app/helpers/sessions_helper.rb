@@ -13,7 +13,7 @@ module SessionsHelper
       @current_user ||= User.find session[:user_id]
     elsif cookies.signed[:user_id]
       user = User.find cookies.signed[:user_id]
-      if user && user.authenticate?(:remember, cookies[:remember_token])
+      if user && User.Authenticator.authenticate?(user, :remember, cookies[:remember_token])
         login_as user
         @current_user = user
       end
@@ -31,14 +31,14 @@ module SessionsHelper
     @current_user = nil
   end
 
-  def remember_as(user)
-    user.remember
+  def remember_as user
+    User::Authenticator.new(user, :remember).perform
     cookies.permanent.signed[:user_id] = user.id
     cookies.permanent[:remember_token] = user.remember_token
   end
 
-  def forget_as(user)
-    user.forget
+  def forget_as user
+    User::Authenticator.new(user, :remember).clean
     cookies.delete :user_id
     cookies.delete :remember_token
   end

@@ -1,0 +1,7 @@
+<%= form_for(@micropost, url: microposts_path) do |f| %>
+  
+  <%= f.text_area :content, class: "form-control", placeholder: "New Post" %>
+
+  <%= f.submit "Create new post", class: "btn btn-primary btn-lg btn-block" %>
+  <%= f.file_field :picture %>
+<% end %>

@@ -1,4 +1,6 @@
 <% provide(:title, "Edit User") %>
 <% provide(:button_text, "Update Information") %>
+<% provide(:path, user_path(@user.id)) %>
+<% provide(:method, "patch")%>
 
-<%= render "form", user: @user %>
+<%= render "form", former: @updater %>
