@@ -1,9 +1,0 @@
-<% unless current_user?(user) %>
-  <% if @relationship == :followers %>
-    <%= "nothing" %>
-  <% elsif @user.follow?(user) %>
-    <%= render "users/unfollow", user: user %>
-  <% else %>
-    <%= render "users/follow", user: user %>
-  <% end %>
-<% end %>

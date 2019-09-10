@@ -13,5 +13,14 @@ RSpec.describe Micropost, type: :model do
       micropost.user_id = nil
       expect(micropost).not_to be_valid
     end
+
+    it "content should not over 140 words" do
+      micropost.content = "a"*141
+      expect(micropost).not_to be_valid
+    end
+
+    it "should be valid" do
+      expect(micropost).to be_valid
+    end
   end
 end

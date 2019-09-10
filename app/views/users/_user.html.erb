@@ -1,23 +1,18 @@
 <tr>
   <td>
     <p>
-      <%= image_tag user.avatar, style: "height: 100px; width: 100px" if user.avatar.attached? %>
+      <%= show_avatar(user, nil, "height: 100px; width: 100px") %>
       <%= link_to user.name, user_path(user) %>
     </p>
   </td>
   <td>
-    <% if login? %>
-      <div class="row">
-        <div class="col-8">
-          <%= render "users/follow_form", user: user %>
-        </div>
-        <div class="col-4">
-          <% if current_user.admin? && !user.admin %>
-            <%= link_to "delete", user_path(user), method: "delete", 
-                                              data:{ confirmation: "Are you sure?"} %>
-          <% end %>
-        </div>
+    <div class="row">
+      <div class="col-8">
+        <%= follow_button_html(user) %>
       </div>
-    <% end %>
+      <div class="col-4">
+        <%= delete_button(user) %>
+      </div>
+    </div>
   </td>
 </tr>

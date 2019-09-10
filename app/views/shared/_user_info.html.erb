@@ -1,5 +1,5 @@
 <div class="card">
-  <%= image_tag user.avatar, class: "card-img-top" if user.avatar.attached? %>
+  <%= show_avatar(user, "card-img-top") %>
   <div class="card-body">
     <div class="row">
       <div class="col-8">
@@ -7,20 +7,17 @@
         <p class="card-subtitle text-muted"><%= user.email%></p>
       </div>
       <div class="col-4">
-       <%= render "users/follow_form", user: user %>
+       <%= follow_button_html(user) %>
       </div>
     </div>
     <div class="row py-3">
       <div class="col">
-        <%= link_to "Followers: #{user.followers.size}", followers_user_path(user) %>
+        <%= link_to "Followers: #{ user.followers_count }", followers_user_path(user) %>
       </div>
       <div class="col">
-        <%= link_to "Following: #{user.following.size}", following_user_path(user) %>
+        <%= link_to "Following: #{ user.following_count }", following_user_path(user) %>
       </div>
     </div>
-
-    <% if current_user?(user) %>
-      <%= link_to "Edit", edit_user_path(user), class: "btn btn-sm btn-secondary" %>
-    <% end %>
+    <%= edit_button user %>
   </div>
 </div>

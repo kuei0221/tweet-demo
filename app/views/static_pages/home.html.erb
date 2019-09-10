@@ -3,22 +3,29 @@
 <% if login? %>
   <div class = "row">
     <div class="col-4">
-        <%= render "shared/error_messages", object: @micropost %>
-        <%= render "shared/user_info", user: current_user %>
-        
-        <div class="card mt-3">
-          <div class="body">
-            <%= render "microposts/microposts_form" %>
-          </div>
+      <%= show_errors @micropost %>
+      <%= render "shared/user_info", user: current_user %>
+      <div class="card mt-3">
+        <div class="body">
+          <%= render "microposts/microposts_form" %>
         </div>
       </div>
-      <div class="col-md-8">
-        <h3 class="text-center">Micropost Feed</h3>
-        <%= render "shared/feed" %>
-      </div>
+    </div>
+    <div class="col-md-8">
+      <h3 class="text-center">Micropost Feed</h3>
+      <%= show_feed @feeds %>
     </div>
   </div>
 <% else %>
-  <%= link_to "Login in", login_path %>
-  <%= link_to "Haven't sign up?", signup_path %>
+  <div class="row justify-content-center text-center">
+    <div class="col-8">
+      <h2>Welcome to the Tweet-demo !</h2>
+      <p>Please Login to see more content!</p>
+      <p><%= link_to "Login in", login_path %></p>
+      <p><%= link_to "Haven't sign up?", signup_path %></p>
+    </div>
+  </div>
+  <div class="row justify-content-end pt-3">
+    <%= image_tag "rails.png", style: "height:200px" %>
+  </div>
 <% end %>

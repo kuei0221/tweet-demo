@@ -6,12 +6,13 @@ class UsersController < ApplicationController
   before_action :check_activated, only: [:show, :edit, :update, :destroy]
   
   def index
-    @users = User.activated.with_attached_avatar.paginate(page: params[:page]) 
-    @user = User.with_attached_avatar.includes(:following).find(current_user.id) if login?
+    @users = User.with_attached_avatar.paginate(page: params[:page])
+    @current_user = User.with_attached_avatar.includes(:following).find(current_user.id) if login?
   end
-
+  
   def show
-    @user = User.with_attached_avatar.includes(:microposts).find(params[:id])
+    @current_user = User.with_attached_avatar.includes(:following).find(current_user.id) if login?
+    @user = User.with_attached_avatar.find(params[:id])
     @microposts = @user.microposts.with_attached_picture.paginate(page: params[:page], per_page: 15)
   end
 
@@ -62,7 +63,6 @@ class UsersController < ApplicationController
   def find_user_with_avatar
     @user = User.with_attached_avatar.find(params[:id])
   end
-
 
   def check_user
     @user = User.find(params[:id])

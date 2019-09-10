@@ -2,12 +2,12 @@
 <table class="table table-hover">
   <thead class="thead-light">
     <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Action</th>
+      <th scope="col-8">Name</th>
+      <th scope="col-4">Action</th>
     </tr>
   </thead>
   <tbody>
-    <%= render @users %>
+    <%= render partial: "users/user", collection: @users %>
   </tbody>
 </table>
 <%= will_paginate @users %>

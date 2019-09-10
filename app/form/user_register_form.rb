@@ -13,6 +13,7 @@ class UserRegisterForm
   def save
     if self.valid? && user.valid?
       user.save
+      return true
     else
       #since if first condition fails, validation in model level won't run, so no possible error
       promote_errors(user) if user.invalid? 

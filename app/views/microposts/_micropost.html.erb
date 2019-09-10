@@ -1,7 +1,7 @@
 <div class="card my-3">
   <div class="card-body">
     <h5 class="card-title">
-      <%= image_tag micropost.user.avatar, style: "height: 50px" if micropost.user.avatar.attached? %>
+      <%= show_avatar micropost.user, nil, "height: 50px" %>
       <%= micropost.user.name %>
       <small class="text-muted">
         ． <%= time_ago_in_words(micropost.updated_at) %> ago
@@ -16,6 +16,6 @@
   <div class="card-footer">
     <%= link_to "comment", "#", class: "btn btn-sm btn-secondary mr-3"%>
     <%= link_to "shared", "#", class: "btn btn-sm btn-secondary mr-3" %>
-    <%= link_to "like", "#", class: "btn btn-sm btn-secondary" %>
+    <%= like_button(micropost)%>
   </div>
 </div>

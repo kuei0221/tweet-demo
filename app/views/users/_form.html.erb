@@ -1,7 +1,7 @@
 <div class="row justify-content-center ">
   <div class="col-4 pb-5">
     <%= form_for(former, url: yield(:path), method: yield(:method)) do |f| %>
-      <%= render "shared/error_messages" , object: f.object %>
+      <%= show_errors f.object %>
 
       <div class="form-group">
         <% if former.user.avatar.attached? %>

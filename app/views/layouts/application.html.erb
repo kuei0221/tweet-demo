@@ -8,11 +8,7 @@
   <body style="width: 1280px; height: 550px">
     <%= render "layouts/header" %>
     <div class="container py-5">
-      <% flash.each do |msg_type, msg| %>
-        <div class="alert alert-<%= msg_type %>">
-          <%= flash[msg_type] %>
-        </div>
-      <% end %>
+      <% show_flash %>
       <%= yield %>
     </div>
     <%= render "layouts/footer" %>

@@ -3,7 +3,7 @@ class StaticPagesController < ApplicationController
   def home
     if login?
       @micropost = current_user.microposts.build 
-      @feed_items = current_user.feed.includes(user: {avatar_attachment: :blob}).with_attached_picture.paginate(page: params[:page], per_page: 15)
+      @feeds = current_user.feed.includes(:likers, user: {avatar_attachment: :blob}).paginate(page: params[:page], per_page: 15)
     end
   end
 

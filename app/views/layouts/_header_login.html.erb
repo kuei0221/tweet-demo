@@ -1,0 +1,8 @@
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account</a>
+  <div class="dropdown-menu">
+    <%= link_to "Profile", user_path(session[:user_id]), class:"dropdown-item" %>
+    <div class="dropdown-divider"></div>
+    <%= link_to "Logout", logout_path, method: "delete", class:"dropdown-item" %>
+  </div>
+</li>

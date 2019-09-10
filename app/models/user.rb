@@ -9,12 +9,13 @@ class User < ApplicationRecord
                                    dependent: :destroy
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
+
+  
   has_one_attached :avatar
   has_secure_password
-  scope :activated, -> { where(activated: true)}
-  
+  default_scope -> { where(activated: true) }
   before_save :downcase_email
-  
+
   validates :email, uniqueness: { case_sensitive:false }
   validates :password, presence: true,
                        length: { minimum: 8, maximum: 51 },
@@ -25,10 +26,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    following_ids = "SELECT followed_id FROM relationships
-                     WHERE  follower_id = :user_id"
-    Micropost.where("user_id IN (#{following_ids})
-                     OR user_id = :user_id ", user_id: id)
+    Micropost.feed(self).with_attached_picture
   end
 
   def follow(other_user)
