@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
         params[:session][:remember_me] == "1" ? remember_as(user) : forget_as(user)
         flash[:success] = "login success"
         flash[:notice] = "#{current_user.name}, Welcome!"
-        redirect_to user
+        redirect_to root_url
       else 
         flash.now[:notice] = "Please activate you account first"
         redirect_to root_url

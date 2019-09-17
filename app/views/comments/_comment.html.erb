@@ -1,0 +1,21 @@
+<div class="card my-1">
+  <div class="row no-gutters">
+
+    <div class="col-1">
+      <%= show_avatar comment.user, "card-img", nil %>
+    </div>
+
+    <div class="col-8">
+      
+      <div class="card-body">
+        <h6 class="card-title">
+          <%= comment.user.name %>
+          <small class="text-muted">． <%= time_ago_in_words(comment.updated_at) %> ago</small>
+          <%= like_button(comment)%>
+        </h6>
+        <p class="card-text"><%= comment.content %></p>
+      </div>
+    </div>
+
+  </div>
+</div>

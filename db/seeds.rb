@@ -26,10 +26,30 @@ User.create(name: "adminstrator",
   )
 end
 
+User.all.each do |user|
+  user.avatar.attach(io: File.open(Rails.root.join("app","assets","images","sample-avatar.jpg")), 
+                     filename: "sample-avatar.jpg", 
+                     content_type: "image/jpg")
+end
+
 users = User.take(10)
 
 50.times do |n|
-  users.each { |user| user.microposts.create!(content: Faker::Lorem.sentence(word_count:5))}
+  users.each { |user| user.posts.create!(content: Faker::Lorem.sentence(word_count:5))}
+end
+
+posts = Post.take(100)
+
+posts.each do |post|
+  users.each do |user| 
+    user.comments.create!(content: Faker::Lorem.sentence(word_count: 5), post_id: post.id)
+    user.like(post)
+  end
+end
+
+comments = Comment.take(100)
+comments.each do |comment|
+  users.each {|user| user.like comment }
 end
 
 users = User.all

@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :like do
-    micropost_id { 1 }
-    user_id { 1 }
+    association :micropost
+    association :user
+    micropost_id { Random.rand(1..1000) }
+    user_id { Random.rand(1..1000) }
   end
 end

@@ -1,6 +1,7 @@
 class RelationshipsController < ApplicationController
 
   before_action :is_login?
+  before_action :find_user, only: [:create, :destroy]
 
   def index
     @relationship = params[:relationship]
@@ -10,15 +11,22 @@ class RelationshipsController < ApplicationController
   end
 
   def create
-    @user = User.find(params[:followed_id])
-    current_user.follow(@user)
+    unless current_user.follow? @user
+      current_user.follow(@user)
+    end
     redirect_to @user
   end
 
   def destroy
-    @user = User.find(params[:followed_id])
-    current_user.unfollow(@user)
+    if current_user.follow? @user
+      current_user.unfollow(@user)
+    end
     redirect_to @user
+  end
+
+  private
+  def find_user
+    @user = User.find(params[:followed_id])
   end
 
 end

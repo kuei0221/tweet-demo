@@ -2,25 +2,25 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-  describe "::create" do
+  describe "::create with UserRegisterForm" do
 
     let(:user) { build(:user, :inactivated) }
     context "with user's name" do
       it "should not be blank" do
         user = build(:user, name: " ")
-        @register = UserRegisterForm.new(name: user.name, email: user.email, password: user.password, password_confirmation: user.password_confirmation) 
+        @register = create_UserRegisterForm(user) 
         expect(@register.save).to be false
       end
       
       it "should not longer than 51 words" do
         user = build(:user, name: "a" *52)
-        @register = UserRegisterForm.new(name: user.name, email: user.email, password: user.password, password_confirmation: user.password_confirmation) 
+        @register = create_UserRegisterForm(user)
         expect(@register.save).to be false
       end
       
       it "should not shorter than 6 words" do
         user = build(:user, name: " ")
-        @register = UserRegisterForm.new(name: user.name, email: user.email, password: user.password, password_confirmation: user.password_confirmation) 
+        @register = create_UserRegisterForm(user)
         expect(@register.save).to be false
       end
     end
@@ -29,13 +29,13 @@ RSpec.describe User, type: :model do
       
       it "should not be blank" do
         user = build(:user, email: " ")
-        @register = UserRegisterForm.new(name: user.name, email: user.email, password: user.password, password_confirmation: user.password_confirmation) 
+        @register = create_UserRegisterForm(user)
         expect(@register.save).to be false
       end
       
       it "should not longer thant 255 words" do
         user = build(:user, email: "a" * 244 + "@example.com")
-        @register = UserRegisterForm.new(name: user.name, email: user.email, password: user.password, password_confirmation: user.password_confirmation) 
+        @register = create_UserRegisterForm(user)
         expect(@register.save).to be false
       end
       
@@ -55,7 +55,7 @@ RSpec.describe User, type: :model do
         invalid_emails = %w[ example example@ @example example@test example@test. example@test.com.]
         invalid_emails.each do |mail|
           user = build(:user, email: mail)
-          @register = UserRegisterForm.new(name: user.name, email: user.email, password: user.password, password_confirmation: user.password_confirmation) 
+          @register = create_UserRegisterForm(user)
           expect(@register.save).to be false
         end
       end
@@ -127,10 +127,102 @@ RSpec.describe User, type: :model do
     context "with valid inforamtion" do
       it "should create successfullly" do
         expect(user).to be_valid
-        @register = UserRegisterForm.new(name: user.name, email: user.email, password: user.password, password_confirmation: user.password_confirmation) 
+        @register = create_UserRegisterForm(user)
         expect(@register.save).to be true
       end
     end   
+  end
+
+  describe "::update with UserUpdateForm" do
+    let!(:user) { create(:user) }
+    before :each do
+      @params = { 
+        name: "correct_name",
+        email: "correct_email@email.com",
+        password: "correct_password",
+        password_confirmation: "correct_password"
+      }
+    end
+    context "with valid update" do
+      it "should be valid" do
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater.user).to eq user
+        expect(@updater.update).to be true
+        expect(user.name).to eq "correct_name"
+        expect(user.email).to eq "correct_email@email.com"
+        expect(user.password).to eq "correct_password"
+      end
+    end
+    context "with user's name" do
+      it "should be exist" do
+        @params[:name] = ""
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater).not_to be_valid
+        expect(@updater.update).to be false
+      end
+
+      it "should be more than 6 char" do
+        @params[:name] = "a"*5
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater).not_to be_valid
+        expect(@updater.update).to be false
+      end
+
+      it "should be less than 51 char" do
+        @params[:name] = "a"*52
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater).not_to be_valid
+        expect(@updater.update).to be false
+      end
+    end
+
+    context "with user's email" do
+      it "should exist" do
+        @params[:email] = ""
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater.update).to be false
+        expect(@updater).not_to be_valid
+      end
+
+      it "should less than 255 chars" do
+        @params[:email] = "a" * 256
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater.update).to be false
+        expect(@updater).not_to be_valid
+      end
+
+      it "should not repeat other's email" do
+        other_user = create(:user)
+        @params[:email] = other_user.email
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater.update).to be false
+        expect(@updater.user).not_to be_valid
+      end
+
+      it "is fine to update with your email" do
+        @params[:email] = user.email
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater.update).to be true
+      end
+    end
+
+    context "with user's password & confirmation" do
+        
+      # it "should be valid with blank password & confirmation" do
+      #   @params[:password] = @params[:password_confirmation] = ""
+      #   @updater = create_UserUpdateForm(@params, user)
+      #   expect(@updater.update).to be true
+      #   expect(user.password).to eq "password"
+      # end
+
+      it "should not be valid with blank password but new confirmation" do
+        @params[:password_confirmation] = "new_password"
+        @updater = create_UserUpdateForm(@params, user)
+        expect(@updater.update).to be false
+      end
+      
+    end
+
   end
   
   describe "#password reset" do

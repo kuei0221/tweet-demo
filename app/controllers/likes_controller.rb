@@ -1,13 +1,27 @@
 class LikesController < ApplicationController
 
+  before_action :find_micropost
+
   def create
-    #get id of post and id of liked user, than increase like in post and add like_user_in in post(unique)
-    Like.create(micropost_id: params[:id], user_id: current_user.id)
+    if current_user.liked? @micropost
+      flash[:danger] = "You have Liked this post."
+    else
+      current_user.like @micropost
+    end
+    redirect_back fallback_location: root_path
+  end
+  
+  def destroy
+    if current_user.liked? @micropost
+      current_user.unlike @micropost
+    else
+      flash[:danger] = "You cannot unlike before like."
+    end
     redirect_back fallback_location: root_path
   end
 
-  def destroy
-    Like.find_by(micropost_id: params[:id], user_id: current_user.id).destroy
-    redirect_back fallback_location: root_path
+  private
+  def find_micropost
+    @micropost = Micropost.find(params[:id])
   end
 end

@@ -3,11 +3,11 @@
 <% if login? %>
   <div class = "row">
     <div class="col-4">
-      <%= show_errors @micropost %>
+      <%= show_errors @post %>
       <%= render "shared/user_info", user: current_user %>
       <div class="card mt-3">
         <div class="body">
-          <%= render "microposts/microposts_form" %>
+          <%= render "posts/post_form" %>
         </div>
       </div>
     </div>

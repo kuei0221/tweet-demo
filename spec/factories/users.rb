@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :user do
+  factory :user, aliases: [:follower, :following] do
     id { Random.rand(1..10000) }
     name { Faker::Name.name }
     email { Faker::Internet.email }
@@ -15,6 +15,18 @@ FactoryBot.define do
 
     trait :admin do
       admin {true}
+    end
+
+    factory :user_with_posts do
+
+      transient do
+        posts_count { 5 }
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:post, evaluator.posts_count, user: user)
+      end
+
     end
 
   end

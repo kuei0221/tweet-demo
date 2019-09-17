@@ -1,0 +1,38 @@
+<div class="card my-3">
+  <div class="row no-gutters">
+    <div class="col-2">
+      <%= show_avatar post.user, "card-img", nil %>
+    </div>
+
+    <div class="col-8">
+
+      <div class="card-body">
+        <h5 class="card-title">
+          <%= post.user.name %>
+          <small class="text-muted">
+            ． <%= time_ago_in_words(post.updated_at) %> ago</small>
+        </h5>
+        <p class="card-text"><%= link_to post.content, post_path(post.id) %></p>
+        <%= image_tag post.picture if post.picture.attached? %>
+      </div>
+
+    </div>
+  </div>
+  <div class="card-footer p-0">
+    <div class="row">
+
+      <div class="col-2">
+        <%= render "comments/comment_form", post: post %>
+      </div>
+      <div class="col-2">
+        <%= link_to fa_icon("retweet"), "#", class: "btn " %>
+      </div>
+      <div class="col-2">
+        <%= like_button(post)%>
+      </div>
+      <div class="col-2">
+        <%= link_to fa_icon("link"), "#", class: "btn " %>
+      </div>
+    </div>
+  </div>
+</div>

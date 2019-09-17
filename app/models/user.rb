@@ -1,6 +1,8 @@
 class User < ApplicationRecord
 
   has_many :microposts, dependent: :destroy
+  has_many :posts, dependent: :destroy
+  has_many :comments, dependent: :destroy
   has_many :active_relationships, class_name: "Relationship", 
                                   foreign_key: "follower_id", 
                                   dependent: :destroy
@@ -10,6 +12,8 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
+  has_many :likes
+  has_many :liked_posts, through: :likes, source: :micropost
   
   has_one_attached :avatar
   has_secure_password
@@ -26,7 +30,7 @@ class User < ApplicationRecord
   end
 
   def feed
-    Micropost.feed(self).with_attached_picture
+    Post.feed(self).with_attached_picture
   end
 
   def follow(other_user)
@@ -39,6 +43,18 @@ class User < ApplicationRecord
 
   def follow?(other_user)
     following.include?(other_user)
+  end
+
+  def like micropost
+    micropost.liked_users << self
+  end
+
+  def unlike micropost
+    micropost.liked_users.delete self
+  end
+
+  def liked? micropost
+    micropost.liked_users.include? self
   end
   
   private

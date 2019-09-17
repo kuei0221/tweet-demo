@@ -5,10 +5,10 @@
     <%= render "shared/user_info", user: @user %>
   </div>
   <div class="col-8">
-    <%= will_paginate @microposts %>
+    <%= will_paginate @posts %>
     <ol>
-      <%= render @microposts %>
+      <%= render @posts %>
     </ol>
-    <%= will_paginate @microposts %>
+    <%= will_paginate @posts %>
   </div>
 </div>

@@ -1,13 +1,15 @@
 <tr>
+
   <td>
     <p>
       <%= show_avatar(user, nil, "height: 100px; width: 100px") %>
       <%= link_to user.name, user_path(user) %>
     </p>
   </td>
-  <td>
+
+  <td class="align-middle">
     <div class="row">
-      <div class="col-8">
+      <div class="col-8" id="follow_button">
         <%= follow_button_html(user) %>
       </div>
       <div class="col-4">
@@ -15,4 +17,5 @@
       </div>
     </div>
   </td>
+  
 </tr>

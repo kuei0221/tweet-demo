@@ -11,19 +11,17 @@ RSpec.feature "login", type: :feature do
     visit login_path
     expect(page).to have_current_path login_path
 
-    
     fill_in "Email", with: user.email
     fill_in "Password", with: user.password
     click_button "Login"
     expect(page).to have_text "success"
     expect(page).to have_link "Logout"
+    expect(page).to have_current_path root_url
 
     click_link "Profile"
     expect(page).to have_current_path user_path user
 
-    within(".card .card-body") do
-      click_link "Edit"
-    end
+    click_link "Edit"
     expect(page).to have_current_path edit_user_path user
 
     fill_in "Password", with: "aaaaaaaaaa"

@@ -1,0 +1,10 @@
+<div class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+    <%= fa_icon("comment", text: post.comments_count) %>
+  </a>
+  <div class="dropdown-menu justify-content-start">
+    <%= form_for(@comment, url: comment_post_path(post.id)) do |f| %>
+      <%= f.text_field :content, class: "dropdown-item", style: "width: 725px", placeholder: "Comment:" %>
+    <% end %>
+  </div>
+</div>
