@@ -14,18 +14,21 @@ module UserForm
   end
 
   class_methods do
+    # allow to rails default setting to find user path rather than formo object path
     def model_name
       ActiveModel::Name.new(User)
     end
   end
 
-  def initialize params=nil, user=nil
+  def initialize(params=nil, user=nil)
     super params
     @params = params
-    user.nil? ? @user = User.new(params) : @user = user
+    #if no user given, assume creating new. Otherwise assumes updating
+    user.nil? ? @user = User.unscoped.new(params) : @user = user
   end
   
-  def promote_errors child_object
+  #gather all errors to form object itself
+  def promote_errors(child_object)
     child_object.errors.map{ |error, msg| self.errors.add(error, msg) }
   end
 

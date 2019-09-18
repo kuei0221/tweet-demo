@@ -9,29 +9,23 @@ Rails.application.routes.draw do
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
+  
   resources :users do
     member do
       get :following, to: "relationships#index", relationship: :following
       get :followers, to: "relationships#index", relationship: :followers
     end
   end
-  # resources :microposts, only: [:create, :destroy] do
-  #   member do
-  #     get :like, to: "likes#create"
-  #     get :unlike, to: "likes#destroy"
-  #     post :comment, to: "comments#create"
-  #   end
-  # end
   
   resources :posts, only: [:create, :destroy, :show] do
     member do
-      get :like, to: "likes#create"
-      get :unlike, to: "likes#destroy"
+      # get :like, to: "likes#create"
+      # get :unlike, to: "likes#destroy"
+      patch :like, to: "likes#update"
       post :comment, to: "comments#create"
+      post :share, to: "shares#create"
     end
   end
-
-
 
   resources :account_activations, only: :edit
   resources :password_resets, only: [:new, :create, :edit, :update]

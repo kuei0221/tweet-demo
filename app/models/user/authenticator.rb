@@ -1,17 +1,23 @@
 class User::Authenticator
-  attr_accessor :user, :function, :email_subject
+  attr_accessor :user, :function
   include Authentication
 
-  def initialize user, function, email_subject=nil
+  def initialize user, function
     @user = user
     @user.class.module_eval { attr_accessor "#{function}_token" }
     @function = function
-    @email_subject = email_subject
   end
 
   def perform
+    
     set
-    send_email(email_subject) if email_subject
+    case function
+    when :activated
+      send_email(:account_activation)
+    when :reset
+      send_email(:password_reset)
+    end
+
   end
 
 end

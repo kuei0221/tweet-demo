@@ -1,0 +1,10 @@
+<div class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+    <%= fa_icon("retweet", text: post.shares_count) %>
+  </a>
+  <div class="dropdown-menu justify-content-start">
+    <%= form_for(Post.new, url: share_post_path(post.id)) do |f| %>
+      <%= f.text_field :content, class: "dropdown-item", style: "width: 550px", placeholder: "Share:" %>
+    <% end %>
+  </div>
+</div>

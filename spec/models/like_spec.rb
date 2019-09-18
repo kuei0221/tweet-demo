@@ -7,7 +7,7 @@ RSpec.describe Like, type: :model do
 
   context "when create" do
     it "should have micropost_id and user_id" do
-      like = Like.new(micropost_id: post.id, user_id: user.id)
+      like = Like.new(micropost: post, user: user)
       expect(like).to be_valid
     end
     

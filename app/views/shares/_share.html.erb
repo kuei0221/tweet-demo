@@ -1,0 +1,22 @@
+<div class="card my-3">
+  
+  <div class="row no-gutters">
+    <div class="col-2">
+      <%= show_avatar share.user, "card-img", nil %>
+    </div>
+
+    <div class="col-8">
+
+      <div class="card-body">
+        <h5 class="card-title">
+          <%= share.user.name %>
+          <small class="text-muted">
+            ． <%= time_ago_in_words(share.updated_at) %> ago</small>
+        </h5>
+        <p class="card-text"><%= link_to share.content, post_path(share.id) %></p>
+        <%= image_tag share.picture if share.picture.attached? %>
+      </div>
+
+    </div>
+  </div>
+</div>

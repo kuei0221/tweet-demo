@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :correct_author, only: [:destroy]
 
   def show
-    @post = Post.includes(:liked_users, user:{avatar_attachment: :blob}).find_by(id: params[:id])
+    @post = Micropost.includes(:liked_users, :sharing, user:{avatar_attachment: :blob}).find_by(id: params[:id])
     @comments = @post.comments.includes(:liked_users, user: {avatar_attachment: :blob} ).all
     @comment = Comment.new
   end

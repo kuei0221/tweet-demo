@@ -1,7 +1,5 @@
 class Comment < Micropost
-  belongs_to :post, counter_cache: :comments_count
+  belongs_to :post, counter_cache: :comments_count, touch: true 
   default_scope -> { order(created_at: :asc) }
-
   validates :post_id, presence: true
-
 end

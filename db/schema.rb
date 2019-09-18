@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_13_064416) do
+ActiveRecord::Schema.define(version: 2019_09_18_060951) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -52,7 +52,10 @@ ActiveRecord::Schema.define(version: 2019_09_13_064416) do
     t.string "type"
     t.integer "post_id"
     t.integer "comments_count", default: 0
+    t.integer "shares_count", default: 0
+    t.integer "share_id"
     t.index ["post_id"], name: "index_microposts_on_post_id"
+    t.index ["share_id"], name: "index_microposts_on_share_id"
     t.index ["user_id", "created_at"], name: "index_microposts_on_user_id_and_created_at"
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
@@ -67,6 +70,15 @@ ActiveRecord::Schema.define(version: 2019_09_13_064416) do
     t.index ["follower_id"], name: "index_relationships_on_follower_id"
   end
 
+  create_table "shares", force: :cascade do |t|
+    t.integer "shared_id"
+    t.integer "sharing_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shared_id"], name: "index_shares_on_shared_id"
+    t.index ["sharing_id"], name: "index_shares_on_sharing_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -79,8 +91,8 @@ ActiveRecord::Schema.define(version: 2019_09_13_064416) do
     t.string "activated_digest"
     t.datetime "activated_at"
     t.string "reset_digest"
-    t.integer "followers_count"
-    t.integer "following_count"
+    t.integer "followers_count", default: 0
+    t.integer "following_count", default: 0
     t.index ["email"], name: "index_users_on_email"
   end
 

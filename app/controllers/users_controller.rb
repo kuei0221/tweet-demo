@@ -3,7 +3,6 @@ class UsersController < ApplicationController
   before_action :find_user_with_avatar, only: [ :edit, :update]
   before_action :is_login?, only: [:show, :edit, :update, :destroy]
   before_action :check_user, only: [:edit, :update]
-  before_action :check_activated, only: [:show, :edit, :update, :destroy]
   
   def index
     @users = User.with_attached_avatar.paginate(page: params[:page], per_page: 10)
@@ -13,8 +12,9 @@ class UsersController < ApplicationController
   def show
     @current_user = User.with_attached_avatar.includes(:following).find(current_user.id) if login?
     @user = User.with_attached_avatar.find(params[:id])
-    @posts = @user.posts.with_attached_picture.includes(:liked_users).paginate(page: params[:page], per_page: 10)
-    @comment = @user.comments.new
+    @posts = @user.posts.with_attached_picture.includes(:liked_users, :sharing).paginate(page: params[:page], per_page: 10)
+    @comment = @current_user.comments.build
+    @share = @current_user.comments.build
   end
 
   def new
@@ -24,7 +24,7 @@ class UsersController < ApplicationController
   def create
     @register = UserRegisterForm.new(user_params)
     if @register.save
-      User::Authenticator.new(@register.user, :activated, :account_activation).perform
+      User::Authenticator.new(@register.user, :activated).perform
       flash[:success] = "Sign up success! Please Check your email for activation"
       redirect_to root_url
     else
@@ -77,8 +77,4 @@ class UsersController < ApplicationController
     redirect_to root_url unless current_user.admin?
   end
   
-  def check_activated
-    redirect_to root_url unless current_user.activated?
-  end
-
 end

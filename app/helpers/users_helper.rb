@@ -21,7 +21,7 @@ module UsersHelper
   def show_feed feeds
     if feeds.any?
       concat will_paginate feeds
-      render feeds
+      render partial: "posts/post", collection: feeds, cached: true
     end
   end
 end

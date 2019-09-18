@@ -1,7 +1,9 @@
 <div class="card my-3">
   <div class="row no-gutters">
     <div class="col-2">
-      <%= show_avatar post.user, "card-img", nil %>
+      <% cache [post.user, post.user.avatar_attachment] do %>
+        <%= show_avatar post.user, "card-img", nil %>
+      <% end %>
     </div>
 
     <div class="col-8">
@@ -10,10 +12,15 @@
         <h5 class="card-title">
           <%= post.user.name %>
           <small class="text-muted">
-            ． <%= time_ago_in_words(post.updated_at) %> ago</small>
+            ． <%= time_ago_in_words(post.created_at) %> ago</small>
         </h5>
         <p class="card-text"><%= link_to post.content, post_path(post.id) %></p>
         <%= image_tag post.picture if post.picture.attached? %>
+        <div style="width: 550px">
+        <% cache [post.id, "sharing", post.sharing, post.user, post.user.avatar_attachment] do %>
+          <%= show_sharing_post post %>
+        <% end %>
+        </div>
       </div>
 
     </div>
@@ -22,13 +29,19 @@
     <div class="row">
 
       <div class="col-2">
-        <%= render "comments/comment_form", post: post %>
+        <% cache [post.id, "comment", post.comments_count, current_user.id] do %>
+          <%= render "comments/comment_form", post: post %>
+        <% end %>
       </div>
       <div class="col-2">
-        <%= link_to fa_icon("retweet"), "#", class: "btn " %>
+        <% cache [post.id, "share", post.shares_count, current_user.id] do %>
+          <%= render "shares/share_form", post: post %>
+        <% end %>
       </div>
       <div class="col-2">
-        <%= like_button(post)%>
+        <% cache [post.id, "like", post.likes_count, current_user.id] do %>
+          <%= like_button(post)%>
+        <% end %>
       </div>
       <div class="col-2">
         <%= link_to fa_icon("link"), "#", class: "btn " %>

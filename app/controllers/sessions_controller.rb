@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
   end
 
   def create
+    #now unactivated user will not even found without unscoped.
     user = User.find_by(email: params[:session][:email])
     if user && user.authenticate(params[:session][:password])
       if user.activated?

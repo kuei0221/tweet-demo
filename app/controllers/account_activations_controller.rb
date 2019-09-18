@@ -1,7 +1,9 @@
 class AccountActivationsController < ApplicationController
   
   def edit
-    user = User.unscoped.find_by(email: params[:email], activated: false)
+
+    user = User.inactivated.find_by email: params[:email]
+
     if user && User::Authenticator.authenticate?(user, :activated, params[:id])
       user.activate
       login_as user
@@ -11,5 +13,7 @@ class AccountActivationsController < ApplicationController
       flash[:danger] = "Invalid token or email"
       redirect_to root_url
     end
+
   end
+
 end

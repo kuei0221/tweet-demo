@@ -7,15 +7,17 @@ class PasswordResetsController < ApplicationController
   end
 
   def create
+
     @user = User.find_by(email: params[:password_reset][:email].downcase)
-    if @user && @user.activated?
-      User::Authenticator.new(@user, :reset, :password_reset).perform
+    if @user
+      User::Authenticator.new(@user, :reset).perform
       flash[:notice] = "Email has been sent"
       redirect_to login_path
     else
       flash.now[:danger] = "Invalid or incorrect email!"
       render :new
     end
+
   end
 
   def edit
@@ -43,7 +45,7 @@ class PasswordResetsController < ApplicationController
   end
 
   def valid_user
-    unless @user && @user.activated? && User::Authenticator.authenticate?(@user, :reset, params[:id])
+    unless @user && User::Authenticator.authenticate?(@user, :reset, params[:id])
       flash[:danger] = "Invalid Link"
       redirect_to root_url
     end
