@@ -32,7 +32,7 @@ RSpec.describe "Password Reset", type: :request do
     end
     
     it "should enter edit page with token & email" do
-      User::Authenticator.new(user, :reset, :password_reset).set 
+      User::Authenticator.new(user, :reset).set 
       get edit_password_reset_path(user.reset_token, email: user.email)
       expect(response).to render_template :edit
     end
@@ -42,7 +42,7 @@ RSpec.describe "Password Reset", type: :request do
   context "when update password" do
     let(:user) { create(:user) }
     before :each do
-      User::Authenticator.new(user, :reset, :password_reset).set
+      User::Authenticator.new(user, :reset).set
       @valid_params = {
         id: user.reset_token,
         email: user.email,

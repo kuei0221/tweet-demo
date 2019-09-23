@@ -9,7 +9,7 @@ module LoginHelper
     User::Authenticator.authenticate?(user, :remember, cookies[:remember_token])
   end
 
-  def create_UserRegisterForm user
+  def create_UserRegisterForm(user)
     UserRegisterForm.new(
       name: user.name,
       email: user.email,
@@ -18,7 +18,7 @@ module LoginHelper
     )
   end
 
-  def create_UserUpdateForm params={}, user
+  def create_UserUpdateForm(params={}, user)
     UserUpdateForm.new( params, user )
   end
 end

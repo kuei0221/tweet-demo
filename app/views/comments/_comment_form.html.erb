@@ -1,10 +1,11 @@
-<div class="nav-item dropdown">
+<%= render "shared/dropdown_form", post: post, action: "comment", counter: "comments_count", icon: "comment" %>
+<!-- <div class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-    <%= fa_icon("comment", text: post.comments_count) %>
+    <%= fa_icon("comment", text: post.comments_count, id: "comment-icon") %>
   </a>
   <div class="dropdown-menu justify-content-start">
-    <%= form_for(@comment, url: comment_post_path(post.id)) do |f| %>
+    <%= form_for(Comment.new, url: comment_post_path(post.id), method: "post", remote: true) do |f| %>
       <%= f.text_field :content, class: "dropdown-item", style: "width: 725px", placeholder: "Comment:" %>
     <% end %>
   </div>
-</div>
+</div> -->

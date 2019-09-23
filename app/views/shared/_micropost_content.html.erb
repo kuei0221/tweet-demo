@@ -1,0 +1,2 @@
+<p class="card-text"><%= link_to micropost.content, post_path(micropost.id), class: "text-dark" %></p>
+<%= image_tag micropost.picture if micropost.picture.attached? %>

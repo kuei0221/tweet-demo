@@ -6,14 +6,15 @@
     </div>
 
     <div class="col-8">
-      
       <div class="card-body">
-        <h6 class="card-title">
+        <!-- <h6 class="card-title">
           <%= comment.user.name %>
-          <small class="text-muted">． <%= time_ago_in_words(comment.updated_at) %> ago</small>
+          <small class="text-muted">． <%= time_ago_in_words(comment.created_at) %> ago</small>
           <%= like_button(comment)%>
-        </h6>
+        </h6> -->
+        <%= render "shared/micropost_title", micropost: comment %>
         <p class="card-text"><%= comment.content %></p>
+        <!-- not render micropost_content for now until comments are allowed to add img and viewed individually -->
       </div>
     </div>
 

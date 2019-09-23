@@ -4,9 +4,10 @@ class PostsController < ApplicationController
   before_action :correct_author, only: [:destroy]
 
   def show
-    @post = Micropost.includes(:liked_users, :sharing, user:{avatar_attachment: :blob}).find_by(id: params[:id])
+    @post = Post.includes(:liked_users, :sharing, user:{avatar_attachment: :blob}).find_by(id: params[:id])
     @comments = @post.comments.includes(:liked_users, user: {avatar_attachment: :blob} ).all
-    @comment = Comment.new
+    # @comment = Comment.new
+    # which is better? create a empty instance vairable or create in form?
   end
 
   def create

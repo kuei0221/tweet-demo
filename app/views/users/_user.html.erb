@@ -3,16 +3,16 @@
   <td>
     <p>
       <% cache [user, "user#avatar", user.avatar_attachment] do %>
-        <%= show_avatar(user, nil, "height: 100px; width: 100px") %>
+      <%= show_avatar(user, nil, "height: 100px; width: 100px") %>
       <% end %>
       <%= link_to user.name, user_path(user) %>
     </p>
   </td>
-
+  
   <td class="align-middle">
     <div class="row">
       <div class="col-8" id="follow_button">
-        <% cache [current_user, user, @relationship, current_user.follow?(user) ] do %>
+        <% cache [current_user, user, @user, @relationship, current_user.follow?(user) ] do %>
           <%= follow_button_html(user) %>
         <% end %>
       </div>

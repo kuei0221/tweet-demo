@@ -33,7 +33,6 @@ class User < ApplicationRecord
   validates :password, presence: true, length: { minimum: 8, maximum: 51 }, allow_nil: true
   
   #callback
-  after_update_commit :touch_all_microposts
   before_save :downcase_email
 
   def activate
@@ -80,10 +79,6 @@ class User < ApplicationRecord
   private
   def downcase_email
     self.email = email.downcase
-  end
-
-  def touch_all_microposts
-    self.microposts.update_all updated_at: Time.zone.now
   end
 
 end

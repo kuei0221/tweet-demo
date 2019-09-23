@@ -1,4 +1,4 @@
-<div class="card my-3">
+<div class="card my-3" id="post-<%= post.id %>">
   <div class="row no-gutters">
     <div class="col-2">
       <% cache [post.user, post.user.avatar_attachment] do %>
@@ -9,13 +9,17 @@
     <div class="col-8">
 
       <div class="card-body">
-        <h5 class="card-title">
+        <!-- <h5 class="card-title">
           <%= post.user.name %>
           <small class="text-muted">
             ． <%= time_ago_in_words(post.created_at) %> ago</small>
-        </h5>
-        <p class="card-text"><%= link_to post.content, post_path(post.id) %></p>
-        <%= image_tag post.picture if post.picture.attached? %>
+        </h5> -->
+        <%= render "shared/micropost_title", micropost: post %>
+
+        <!-- <p class="card-text"><%= link_to post.content, post_path(post.id), class: "text-dark" %></p>
+        <%= image_tag post.picture if post.picture.attached? %> -->
+        <%= render "shared/micropost_content", micropost: post %>
+
         <div style="width: 550px">
         <% cache [post.id, "sharing", post.sharing, post.user, post.user.avatar_attachment] do %>
           <%= show_sharing_post post %>
@@ -26,26 +30,8 @@
     </div>
   </div>
   <div class="card-footer p-0">
-    <div class="row">
-
-      <div class="col-2">
-        <% cache [post.id, "comment", post.comments_count, current_user.id] do %>
-          <%= render "comments/comment_form", post: post %>
-        <% end %>
-      </div>
-      <div class="col-2">
-        <% cache [post.id, "share", post.shares_count, current_user.id] do %>
-          <%= render "shares/share_form", post: post %>
-        <% end %>
-      </div>
-      <div class="col-2">
-        <% cache [post.id, "like", post.likes_count, current_user.id] do %>
-          <%= like_button(post)%>
-        <% end %>
-      </div>
-      <div class="col-2">
-        <%= link_to fa_icon("link"), "#", class: "btn " %>
-      </div>
+    <div class = "row" id="bar-<%= post.id %>">
+      <%= render "posts/post_function_bar", post: post %>
     </div>
   </div>
 </div>

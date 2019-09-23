@@ -117,7 +117,7 @@ RSpec.describe User, type: :model do
         expect(user.activated).to be false
       end
       it "should set activated token and digest after call authenticator" do
-        User::Authenticator.new(user, :activated, :account_activated).set
+        User::Authenticator.new(user, :activated).set
         expect(user.activated_token).to be_present
         expect(user.activated_digest).to be_present
       end
@@ -211,6 +211,7 @@ RSpec.describe User, type: :model do
       # it "should be valid with blank password & confirmation" do
       #   @params[:password] = @params[:password_confirmation] = ""
       #   @updater = create_UserUpdateForm(@params, user)
+      #   byebug
       #   expect(@updater.update).to be true
       #   expect(user.password).to eq "password"
       # end
@@ -229,7 +230,7 @@ RSpec.describe User, type: :model do
     context "when called" do
       let!(:user) { create(:user) }
       it "should create reset token and reset digest" do
-          User::Authenticator.new(user, :reset, :password_reset).set
+          User::Authenticator.new(user, :reset).set
           user.reload
           expect(user.reset_token).to be_present
           expect(user.reset_digest).to be_present

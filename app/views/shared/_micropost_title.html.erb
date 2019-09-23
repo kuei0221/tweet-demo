@@ -1,0 +1,4 @@
+<h5 class="card-title">
+  <%= link_to micropost.user.name, user_path(micropost.user), class: "text-info" %>
+  <small class="text-muted">． <%= time_ago_in_words(micropost.created_at) %> ago</small>
+</h5>

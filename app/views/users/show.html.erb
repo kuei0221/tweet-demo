@@ -7,7 +7,7 @@
   <div class="col-8">
     <%= will_paginate @posts %>
     <ol>
-      <%= render partial: "posts/post", collection: @posts, cached: true %>
+      <%= render partial: "posts/post", collection: @posts, cached: -> post{[post, @user, current_user]} %>
     </ol>
     <%= will_paginate @posts %>
   </div>

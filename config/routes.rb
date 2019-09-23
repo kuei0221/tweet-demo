@@ -19,8 +19,6 @@ Rails.application.routes.draw do
   
   resources :posts, only: [:create, :destroy, :show] do
     member do
-      # get :like, to: "likes#create"
-      # get :unlike, to: "likes#destroy"
       patch :like, to: "likes#update"
       post :comment, to: "comments#create"
       post :share, to: "shares#create"

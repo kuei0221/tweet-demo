@@ -6,8 +6,8 @@ class RelationshipsController < ApplicationController
   def index
     @relationship = params[:relationship]
     @title = @relationship.capitalize
-    @current_user = User.with_attached_avatar.includes(@relationship).find(params[:id])
-    @users = @current_user.send(@relationship).with_attached_avatar.paginate(page: params[:page])
+    @user = User.with_attached_avatar.includes(@relationship).find(params[:id])
+    @users = @user.send(@relationship).with_attached_avatar.paginate(page: params[:page])
   end
 
   def create

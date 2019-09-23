@@ -20,12 +20,6 @@ module SessionsHelper
     end
   end
 
-  # def current_user_with_following
-  #   if current_user
-  #     @current_user_with_following ||= User.includes(:following).find(current_user.id)
-  #   end
-  # end
-
   def current_user? user
     current_user == user
   end

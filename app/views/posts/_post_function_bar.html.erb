@@ -1,0 +1,21 @@
+<div class="col-2" id="comment_form">
+  <% cache [post.id, "comment", post.comments_count, current_user.id] do %>
+    <%= render "comments/comment_form", post: post %>
+  <% end %>
+</div>
+
+<div class="col-2" id="share_form">
+  <% cache [post.id, "share", post.shares_count, current_user.id] do %>
+    <%= render "shares/share_form", post: post %>
+  <% end %>
+</div>
+
+<div class="col-2" id="like_button">
+  <% cache [post.id, "like", post.likes_count, current_user.id] do %>
+    <%= like_button(post)%>
+  <% end %>
+</div>
+
+<div class="col-2">
+  <%= link_to fa_icon("link"), "#", class: "btn " %>
+</div>

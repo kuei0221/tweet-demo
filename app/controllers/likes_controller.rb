@@ -3,14 +3,22 @@ class LikesController < ApplicationController
   before_action :find_micropost
   
   def update
-    if params[:like] == "true" && !current_user.liked?(@micropost)
-      current_user.like @micropost
-    elsif params[:like] == "false" && current_user.liked?(@micropost)
-      current_user.unlike @micropost
-    else
-      flash[:danger] = "Problem occurred when #{pressing_that_button}"
+
+    respond_to do |format|
+
+      if check_like == "like"
+        current_user.like @micropost
+        format.js
+      elsif check_like == "unlike"
+        current_user.unlike @micropost
+        format.js
+      else
+        flash[:danger] = "Problem occurred when #{params[:like_action]}"
+      end
+
+      format.html { redirect_back fallback_location: root_path }
     end
-    redirect_back fallback_location: root_path
+
   end
   
   private
@@ -18,7 +26,21 @@ class LikesController < ApplicationController
     @micropost = Micropost.find(params[:id])
   end
 
-  def pressing_that_button
-    params[:like] == "true" ? "liking" : "unliking"
+  def is_post_liked?
+    current_user.liked? @micropost if current_user.present?
+  end
+
+  def check_like
+
+    if params[:like_action].present?
+      if params[:like_action] == "like" && !is_post_liked?
+        return "like"
+      elsif params[:like_action] == "unlike" && is_post_liked?
+        return "unlike"
+      else
+        return false
+      end
+    end
+
   end
 end
