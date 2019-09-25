@@ -7,6 +7,7 @@ class Micropost < ApplicationRecord
   has_one_attached :picture
 
   scope :feed, -> (user) { where("user_id IN (?) or user_id = ? ", user.following_ids, user.id) }
+  scope :random, -> (nums=1) { unscoped.order("RANDOM()").limit(nums) }
   # scope :type, -> (*type) { where("type IN (?)", type) }
   # scope :time_desc, -> { order(updated_at: :desc) }
 

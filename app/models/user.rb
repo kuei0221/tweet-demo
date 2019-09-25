@@ -27,6 +27,7 @@ class User < ApplicationRecord
   #scope
   default_scope -> { where activated: true }
   scope :inactivated, -> { unscoped.where activated: false }
+  scope :random, -> (nums=1) { unscoped.order("RANDOM()").limit(nums) }
   
   #validate
   validates :email, uniqueness: { case_sensitive: false }
@@ -73,7 +74,19 @@ class User < ApplicationRecord
   end
 
   def share(post, content)
-    @share = self.posts.build sharing: post, content: content
+    @share = self.posts.build(sharing: post, content: content)
+  end
+  
+  def share!(post, content)
+    @share = self.posts.create(sharing: post, content: content)
+  end
+
+  def comment(post, content)
+    @comment = self.comments.build(post: post, content: content)
+  end
+  
+  def comment!(post, content)
+    @comment = self.comments.create(post: post, content: content)
   end
 
   private

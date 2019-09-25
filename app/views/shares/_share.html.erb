@@ -5,16 +5,9 @@
       <%= show_avatar share.user, "card-img", nil %>
     </div>
 
-    <div class="col-8">
+    <div class="col">
       <div class="card-body">
-        <!-- <h5 class="card-title">
-          <%= share.user.name %>
-          <small class="text-muted">
-            ． <%= time_ago_in_words(share.created_at) %> ago</small>
-        </h5> -->
         <%= render "shared/micropost_title", micropost: share %>
-        <!-- <p class="card-text"><%= link_to share.content, post_path(share.id) %></p>
-        <%= image_tag share.picture if share.picture.attached? %> -->
         <%= render "shared/micropost_content", micropost: share %>
       </div>
     </div>

@@ -3,7 +3,7 @@
     <%= fa_icon(icon, text: post.send(counter), id: "#{action}-icon") %>
   </a>
   <div class="dropdown-menu justify-content-start">
-    <%= form_for(Micropost.new, url: "posts/#{post.id}/#{action}", remote: true) do |f| %>
+    <%= form_for(Micropost.new, url: "/posts/#{post.id}/#{action}", remote: true) do |f| %>
       <%= f.text_field :content, class: "dropdown-item", style: "width: 550px", placeholder: "#{action.capitalize}:" %>
     <% end %>
   </div>

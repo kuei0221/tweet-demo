@@ -9,5 +9,5 @@ class Post < Micropost
 
   default_scope -> { order(created_at: :desc)}
   scope :feed, -> (user) { where("user_id IN (?) or user_id = ? ", user.following_ids, user.id) }
-
+  # scope :random, -> (nums=1) { unscoped.order("RANDOM()").limit(nums) }
 end

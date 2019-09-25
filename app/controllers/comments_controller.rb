@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
 
   def create
     @post = Post.find params[:id]
-    @comment = current_user.comments.build(content: comment_params[:content], post: @post)
+    @comment = current_user.comment @post, comment_params[:content]
     
     respond_to do |format|
       if @comment.save
