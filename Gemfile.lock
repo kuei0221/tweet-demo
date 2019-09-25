@@ -317,6 +317,7 @@ DEPENDENCIES
   capybara
   coffee-rails (~> 4.2)
   database_cleaner
+  factory_bot
   factory_bot_rails
   faker
   font-awesome-rails
