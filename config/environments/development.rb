@@ -63,5 +63,4 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  config.factory_bot.definition_file_paths = ["spec/factories"]
 end

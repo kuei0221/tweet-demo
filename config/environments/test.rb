@@ -46,5 +46,4 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
 
-  config.factory_bot.definition_file_paths = ["spec/factories"]
 end
