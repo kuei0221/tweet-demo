@@ -11,13 +11,10 @@ ruby '2.6.3'
 
 gem 'bootstrap', "~> 4.3.1"
 gem "jquery-rails"
-gem "bcrypt"
 gem 'will_paginate', "3.1.7"
 gem 'bootstrap-will_paginate', '1.0.0'
 gem "sprockets-rails", ">= 2.3.2"
 gem 'image_processing', '~> 1.2'
-gem "mini_magick"
-gem "active_type"
 gem "font-awesome-rails"
 gem "unsplash"
 
@@ -48,10 +45,10 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use ActiveStorage variant
-# gem 'mini_magick', '~> 4.8'
+gem 'mini_magick', '~> 4.8'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -63,13 +60,12 @@ group :production do
   gem "pg"
 end
 
-gem "factory_bot"
-gem "factory_bot_rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem "rspec-rails"
+  gem "factory_bot_rails"
   gem "database_cleaner"
   gem "faker"
   gem "rails-controller-testing"
