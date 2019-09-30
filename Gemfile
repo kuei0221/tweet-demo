@@ -26,7 +26,6 @@ gem 'omniauth-google-oauth2'
 gem 'rails', '~> 5.2.3'
 # Use sqlite3 as the database for Active Record
 # gem 'sqlite3'
-# gem "pg"
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
@@ -56,9 +55,9 @@ gem 'mini_magick', '~> 4.8'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
-group :production do
-  gem "pg"
-end
+
+gem "pg"
+gem "faker"
 
 
 
@@ -67,11 +66,9 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem "rspec-rails"
   gem "database_cleaner"
-  gem "faker"
   gem "rails-controller-testing"
   gem "capybara"
   gem "factory_bot_rails"
-  gem "sqlite3"
 end
 
 group :development do
