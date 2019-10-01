@@ -17,5 +17,7 @@
 </div>
 
 <div class="col-2">
-  <%= link_to fa_icon("link"), "#", class: "btn " %>
+  <button class="clipboard btn" id= "" data-clipboard-text="<%= post_url(post.id) %>">
+    <%= fa_icon("link") %>
+  </button>
 </div>
