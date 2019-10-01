@@ -29,6 +29,4 @@ development:
   database: tweet_demo_development
   username: <%= ENV["POSTGRESQL_USER"] %>
   password: <%= ENV["POSTGRESQL_PASSWORD"] %>
-  # username: postgres
-  # password: weipei0221
   
