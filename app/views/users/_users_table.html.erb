@@ -7,7 +7,7 @@
     </tr>
   </thead>
   <tbody>
-    <%= render partial: "users/user", collection: @users, cached: -> user { [user, @relationship] } %>
+    <%= render partial: "users/user", collection: @users, cached: -> user { [current_user, user, @relationship] } %>
   </tbody>
 </table>
 <%= will_paginate @users %>
