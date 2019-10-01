@@ -12,7 +12,7 @@
   <td class="align-middle">
     <div class="row">
       <div class="col-8" id="follow_button">
-        <% cache [current_user, user, @user, @relationship, current_user.follow?(user) ] do %>
+        <% cache [current_user, user, @user, @relationship, @title] do %>
           <%= follow_button_html(user) %>
         <% end %>
       </div>

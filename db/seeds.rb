@@ -4,7 +4,7 @@ def random_content(words_range = (5..10))
   Faker::Lorem.sentence(word_count: Random::rand(words_range))
 end
 
-100.times do |n|
+50.times do |n|
   #set 100 user , while first user is admin
   if n == 0
     @user = User.create!(

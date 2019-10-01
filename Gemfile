@@ -59,7 +59,10 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem "pg"
 gem "faker"
 
-
+group :production do
+  gem "aws-sdk", '~> 3', require: false
+  
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
