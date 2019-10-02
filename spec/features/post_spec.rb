@@ -2,6 +2,7 @@ require "rails_helper"
 require "features/features_helper"
 include FeaturesHelper
 
+#js: true, driver: :selenium_chrome not working yet
 RSpec.feature "create new post", type: :feature do
   let!(:user) { create(:user_with_posts) }
   let!(:other_user) { create(:user_with_posts) }
@@ -31,15 +32,18 @@ RSpec.feature "create new post", type: :feature do
       expect(user.posts.first.comments_count).to eq(0)
       expect(page).to have_css "#comment_form #comment-icon"
       expect(user.posts.first.shares_count).to eq(0)
+      expect(page).to have_css ".clipboard"
 
-      find("#like_button a").click
-      # expect(user.posts.first.reload.likes_count).to eq(1)
+      expect {find("#like_button a").click }.to change {find("#like_button a").text.to_i}.by(1)
+      expect {find("#like_button a").click }.to change {find("#like_button a").text.to_i}.by(-1)
       expect(page).to have_current_path root_url
       
       # find("#comment_form a").click
-      fill_in placeholder: "Comment:", with: "Some Comment\n"
-      # expect(page.find("#comment_form div")).to have_content "1"
-      expect(page).to have_current_path root_url
+      # fill_in placeholder: "Comment:", with: "Some Comment\n"
+      # expect {
+      #   fill_in( placeholder: "Comment:", with: "Some Comment").send_keys(:enter)
+      # }.to change { find("#comment_form a").text.to_i }.by(1)
+      # expect(page).to have_current_path root_url
       
       # find("#share_form a").click
       fill_in placeholder: "Share:", with: "Some Share\n"

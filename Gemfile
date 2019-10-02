@@ -70,6 +70,7 @@ group :development, :test do
   gem "database_cleaner"
   gem "rails-controller-testing"
   gem "capybara"
+  gem "selenium-webdriver"
   gem "factory_bot_rails"
 end
 
