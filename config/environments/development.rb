@@ -33,9 +33,15 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.delivery_method = :test
+  # config.action_mailer.delivery_method = :test
   host = "localhost:3000"
   config.action_mailer.default_url_options = { host: host, protocol: "http"}
+
+  config.action_mailer.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    api_key: ENV["MAILGUN_API_KEY"],
+    domain: ENV["MAILGUN_DOMAIN"]
+  }
 
   config.action_mailer.perform_caching = false
 
