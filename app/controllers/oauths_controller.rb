@@ -1,7 +1,7 @@
 require "rest-client"
 
 class OauthsController < ApplicationController
-  before_action :check_login
+  before_action :already_login?
 
   def create
 
@@ -43,13 +43,6 @@ class OauthsController < ApplicationController
   private
   def oauths_params
     params.permit(:provider, :token)
-  end
-
-  def check_login
-    if login?
-      flash[:notice] = "You have already login!"
-      redirect_to root_path
-    end
   end
 
 end

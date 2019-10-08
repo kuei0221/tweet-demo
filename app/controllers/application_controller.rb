@@ -9,5 +9,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def already_login?
+    if login?
+      flash[:notice] = "You have already login!"
+      redirect_to root_path
+    end
+  end
+
   
 end
