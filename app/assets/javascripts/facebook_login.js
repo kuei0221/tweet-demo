@@ -30,13 +30,13 @@ window.fbAsyncInit = function() {
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-var postFaceBookSignin = function(response){
+var postFaceBookSignin = function(response){  
   console.log("facebook ajax action start");
   $.ajax({
-    url: window.location.origin + "/oauth/new/facebook",
-    type: "GET",
+    url: window.location.origin + "/oauth/facebook",
+    type: "POST",
     datatype: "json",
     contentType: "application/json",
-    data: {token: response.authResponse.accessToken}
+    data: JSON.stringify({token: response.authResponse.accessToken})
   })
 };

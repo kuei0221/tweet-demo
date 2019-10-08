@@ -1,16 +1,18 @@
 require "rest-client"
 
 class OauthsController < ApplicationController
+  before_action :check_login
 
-  def new
+  def create
 
     provider = oauths_params[:provider]
     token = oauths_params[:token]
     logger = OauthLogger.new(provider)
     @res = logger.perform(token)
-    # have ident and user - find user and login
-    # don have iden but have user - connect with email and login
-    # dont have inde and dont have user - connect and create
+    # check respose and start login process
+    # have identity - find user and login * identity should only create with user
+    # dont have identity but have user with same email - connect identity and user with email and then login
+    # dont have indentity and dont have user either - connect and create
     
     if @res.present?
       @identity = Identity.find_by(uid: @res[:uid], provider: provider)
@@ -32,8 +34,8 @@ class OauthsController < ApplicationController
       flash[:success] = "#{current_user.name}, Welcome!"
     else
       flash[:danger] = "Login fail"
-      # if using render instead, the returned code will been shown in the url
     end
+    # if using render instead, the returned code will been shown in the url
     render js: "window.location =  '#{root_path}'"
     
   end
@@ -41,6 +43,13 @@ class OauthsController < ApplicationController
   private
   def oauths_params
     params.permit(:provider, :token)
+  end
+
+  def check_login
+    if login?
+      flash[:notice] = "You have already login!"
+      redirect_to root_path
+    end
   end
 
 end

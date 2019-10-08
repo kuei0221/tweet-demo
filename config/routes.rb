@@ -10,8 +10,7 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
-  get '/auth/:provider/callback', to: "sessions#callback"
-  get "/oauth/new/:provider",to: "oauths#new", as: :new_oauth
+  post "/oauth/:provider", to: "oauths#create", as: :oauth
 
   resources :users do
     member do

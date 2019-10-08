@@ -15,10 +15,10 @@
  var postGoolgeSignin = function(){
    console.log("google ajax action start");
    $.ajax({
-     url: window.location.origin + "/oauth/new/google",
-     type: "GET",
+     url: window.location.origin + "/oauth/google",
+     type: "POST",
      datatype: "json",
      contentType: "application/json",
-     data: {token: id_token}
+     data: JSON.stringify({token: id_token})
    })
  }
