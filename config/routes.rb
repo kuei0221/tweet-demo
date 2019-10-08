@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   get "/login", to: "sessions#new"
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
-  
+
+  get '/auth/:provider/callback', to: "sessions#callback"
+  get "/oauth/new/:provider",to: "oauths#new", as: :new_oauth
+
   resources :users do
     member do
       get :following, to: "relationships#index", relationship: :following

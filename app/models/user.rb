@@ -4,8 +4,7 @@ class User < ApplicationRecord
   has_many :microposts, dependent: :destroy
   has_many :posts, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :shares, dependent: :destroy
-
+  has_many :identities, dependent: :destroy
   #association with follow
   has_many :active_relationships, class_name: "Relationship", 
                                   foreign_key: "follower_id", 

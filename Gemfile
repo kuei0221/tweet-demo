@@ -58,6 +58,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem "pg"
 gem "faker"
 gem 'mailgun-ruby', '~>1.1.6'
+gem "rest-client"
 
 group :production do
   gem "aws-sdk", '~> 3', require: false

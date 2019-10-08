@@ -1,3 +1,4 @@
+# require "#{}app/services/oauth_logger.rb"
 class StaticPagesController < ApplicationController
   
   def home
@@ -10,6 +11,7 @@ class StaticPagesController < ApplicationController
   end
 
   def about
+    @logger = OauthLogger.new(:facebook)
   end
 
   def help

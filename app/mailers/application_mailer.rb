@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "mailgun@#{ENV["MAILGUN_DOMAIN"]}"
+  default from: "noreply@mytweet-demo.com"
   layout 'mailer'
 end
