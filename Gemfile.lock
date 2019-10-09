@@ -840,8 +840,6 @@ GEM
       autoprefixer-rails (>= 9.1.0)
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
-    bootstrap-will_paginate (1.0.0)
-      will_paginate
     builder (3.2.3)
     byebug (11.0.1)
     capybara (3.29.0)
@@ -886,7 +884,6 @@ GEM
       railties (>= 3.2, < 6.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
-    hashie (3.6.0)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httparty (0.17.1)
@@ -950,18 +947,7 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
-    omniauth (1.9.0)
-      hashie (>= 3.4.6, < 3.7.0)
-      rack (>= 1.6.2, < 3)
-    omniauth-facebook (5.0.0)
-      omniauth-oauth2 (~> 1.2)
-    omniauth-google-oauth2 (0.8.0)
-      jwt (>= 2.0)
-      omniauth (>= 1.1.1)
-      omniauth-oauth2 (>= 1.6)
-    omniauth-oauth2 (1.6.0)
-      oauth2 (~> 1.1)
-      omniauth (~> 1.9)
+    pagy (3.6.0)
     pg (1.1.4)
     pg (1.1.4-x64-mingw32)
     pg (1.1.4-x86-mingw32)
@@ -1112,7 +1098,6 @@ GEM
     websocket-driver (0.7.1-java)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
-    will_paginate (3.1.7)
     xpath (3.2.0)
       nokogiri (~> 1.8)
 
@@ -1128,7 +1113,6 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
-  bootstrap-will_paginate (= 1.0.0)
   byebug
   capybara
   coffee-rails (~> 4.2)
@@ -1142,9 +1126,7 @@ DEPENDENCIES
   listen (>= 3.0.5, < 3.2)
   mailgun-ruby (~> 1.1.6)
   mini_magick (~> 4.8)
-  omniauth
-  omniauth-facebook
-  omniauth-google-oauth2
+  pagy (~> 3.5)
   pg
   puma (~> 3.11)
   rails (~> 5.2.3)
@@ -1161,7 +1143,6 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   unsplash
   web-console (>= 3.3.0)
-  will_paginate (= 3.1.7)
 
 RUBY VERSION
    ruby 2.6.3p62

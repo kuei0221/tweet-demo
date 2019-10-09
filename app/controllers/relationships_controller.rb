@@ -7,7 +7,8 @@ class RelationshipsController < ApplicationController
     @relationship = params[:relationship]
     @title = @relationship.capitalize
     @user = User.with_attached_avatar.includes(@relationship).find(params[:id])
-    @users = @user.send(@relationship).with_attached_avatar.paginate(page: params[:page])
+    @users_collection = @user.send(@relationship).with_attached_avatar
+    @pagy, @users = pagy(@user_collection)
   end
 
   def create

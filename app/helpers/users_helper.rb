@@ -20,7 +20,7 @@ module UsersHelper
 
   def show_feed feeds
     if feeds.any?
-      concat will_paginate feeds
+      concat pagy_bootstrap_nav(@pagy).html_safe
       render partial: "posts/post", collection: feeds, cached: -> post {[post, post.user, current_user]}
     end
   end

@@ -5,16 +5,18 @@ class UsersController < ApplicationController
   before_action :check_user, only: [:edit, :update]
   
   def index
-    @users = User.with_attached_avatar.paginate(page: params[:page], per_page: 10)
+    @users_collection = User.with_attached_avatar
+    @pagy, @users = pagy(@users_collection)
     @current_user = User.with_attached_avatar.includes(:following).find(current_user.id) if login?
   end
   
   def show
     @current_user = User.with_attached_avatar.includes(:following).find(current_user.id) if login?
     @user = User.with_attached_avatar.find(params[:id])
-    @posts = @user.posts.with_attached_picture.includes(:liked_users, :sharing).paginate(page: params[:page], per_page: 10)
-    @comment = @current_user.comments.build
-    @share = @current_user.comments.build
+    @posts_collection = @user.posts.with_attached_picture.includes(:liked_users, :sharing)
+    @pagy, @posts = pagy(@posts_collection)
+    @comment = @current_user.comment
+    @share = @current_user.share
   end
 
   def new

@@ -72,19 +72,19 @@ class User < ApplicationRecord
     micropost.liked_users.include? self
   end
 
-  def share(post, content)
+  def share(post=nil, content=nil)
     @share = self.posts.build(sharing: post, content: content)
   end
   
-  def share!(post, content)
+  def share!(post=nil, content=nil)
     @share = self.posts.create(sharing: post, content: content)
   end
 
-  def comment(post, content)
+  def comment(post=nil, content=nil)
     @comment = self.comments.build(post: post, content: content)
   end
   
-  def comment!(post, content)
+  def comment!(post=nil, content=nil)
     @comment = self.comments.create(post: post, content: content)
   end
 

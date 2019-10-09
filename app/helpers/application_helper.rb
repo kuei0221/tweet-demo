@@ -1,5 +1,7 @@
 module ApplicationHelper
 
+  include Pagy::Frontend
+
   def full_title(page_title)
     default = "tweet-demo"
     if page_title.present?

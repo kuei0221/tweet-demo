@@ -1,4 +1,5 @@
-<%= will_paginate @users %>
+<%== pagy_bootstrap_nav(@pagy) %>
+
 <table class="table table-hover">
   <thead class="thead-light">
     <tr>
@@ -10,4 +11,5 @@
     <%= render partial: "users/user", collection: @users, cached: -> user { [current_user, user, @relationship] } %>
   </tbody>
 </table>
-<%= will_paginate @users %>
+
+<%== pagy_bootstrap_nav(@pagy) %>
