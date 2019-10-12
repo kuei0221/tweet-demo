@@ -28,6 +28,7 @@ window.fbAsyncInit = function() {
     xfbml      : true,                     // Parse social plugins on this webpage.
     version    : 'v4.0'           // Use this Graph API version for this call.
   });
+  FB.XFBML.parse();
 };
 
 

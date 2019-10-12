@@ -8,7 +8,7 @@ class RelationshipsController < ApplicationController
     @title = @relationship.capitalize
     @user = User.with_attached_avatar.includes(@relationship).find(params[:id])
     @users_collection = @user.send(@relationship).with_attached_avatar
-    @pagy, @users = pagy(@user_collection)
+    @pagy, @users = pagy(@users_collection)
   end
 
   def create

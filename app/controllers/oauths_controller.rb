@@ -4,45 +4,56 @@ class OauthsController < ApplicationController
   before_action :already_login?
 
   def create
+    #first check response from provider, checking of provider should be done in logger
+    #then check user with this order - 1. Have identity 2. Have same email 3. Create new User
 
-    provider = oauths_params[:provider]
-    token = oauths_params[:token]
-    logger = OauthLogger.new(provider)
-    @res = logger.perform(token)
-    # check respose and start login process
-    # have identity - find user and login * identity should only create with user
-    # dont have identity but have user with same email - connect identity and user with email and then login
-    # dont have indentity and dont have user either - connect and create
+    @provider = oauths_params[:provider]
+    @res = OauthLogger.call @provider, oauths_params[:token]
     
-    if @res.present?
-      @identity = Identity.find_by(uid: @res[:uid], provider: provider)
-      
-      if @identity.present?
-        @user = @identity.user
-        flash[:notice] = "You have connected with #{provider.capitalize} already."
-      else
-        @user = User.find_by(email: @res[:email])
-        if @user.present?
-          flash[:notice] = "This email has already been sign up, will generate connection with it"
-        else
-          @user = Identity.create_user_with_identity @res, provider
-          flash[:notice] = "Sign in as a new user with #{provider.capitalize}."
-        end
-      end
-
-      login_as @user if @user
-      flash[:success] = "#{current_user.name}, Welcome!"
-    else
-      flash[:danger] = "Login fail"
-    end
-    # if using render instead, the returned code will been shown in the url
+    @res.present? || render_invalid
+    @user = find_identity_user || find_confirmed_email_user || create_new_identity_user || render_invalid
+    login_as @user
+    flash[:success] = "#{current_user.name}, Welcome!"
     render js: "window.location =  '#{root_path}'"
-    
+
   end
 
   private
+
   def oauths_params
     params.permit(:provider, :token)
   end
+
+  def render_invalid
+    flash[:danger] = "Login fail with #{@provider}}"
+    render js: "window.location = '#{login_path}' " and return
+  end
+
+  def find_identity_user
+    identity = Identity.find_by(uid: @res[:uid], provider: @provider)
+    return_object_and_message_if_true(identity, "You have connected with #{@provider.capitalize} already.", object_attribute: :user )
+  end
+
+  def find_confirmed_email_user
+    user = User.find_by(email: @res[:email])
+    return_object_and_message_if_true(user, "This email has already been sign up, will generate connection with it")
+  end
+
+  def create_new_identity_user
+    user = Identity.create_user_with_identity @res, @provider
+    return_object_and_message_if_true(user, "Sign in as a new user with #{@provider.capitalize}.", filter: :valid?)
+  end
+
+  def return_object_and_message_if_true(object, message, option={})
+    filter = option.fetch(:filter, :present?)
+    object_attribute = option.fetch(:object_attribute, :itself)
+
+    if object.send filter
+      flash[:notice] = message
+      return object.send object_attribute
+    end
+
+  end
+
 
 end
