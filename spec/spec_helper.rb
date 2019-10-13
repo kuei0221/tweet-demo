@@ -13,10 +13,15 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
+
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+ 
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods
@@ -93,4 +98,29 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
+
+
+  config.before(:each) do
+    stub_request(:get, /graph.facebook.com/).
+      with(headers: {'Accept': '*/*', 'User-Agent': 'rest-client/2.0.2 (linux-gnu x86_64) ruby/2.6.3p62'}).
+      to_return(status: 200, headers: {}, body: '{
+        "name": "testing-name",
+        "email": "testing-email@email.com",
+        "id": "testing-facebook-uid",
+        "picture": { "data": { "url": "https://robohash.org/inexpeditaveniam.png?size=300x300&set=set1"}}
+      }')
+    
+    stub_request(:get, /oauth2.googleapis.com/).
+    with(headers: {'Accept': '*/*', 'User-Agent': 'rest-client/2.0.2 (linux-gnu x86_64) ruby/2.6.3p62'}).
+    to_return(status: 200, headers: {}, body: '{
+      "name": "testing-name",
+      "email": "testing-email@email.com",
+      "sub": "testing-google-uid",
+      "picture":  "https://robohash.org/inexpeditaveniam.png?size=300x300&set=set1"
+    }')
+    
+    stub_request(:get, /robohash.org/).
+      with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+      to_return(:status => 200, :body => "", :headers => {})
+  end
 end

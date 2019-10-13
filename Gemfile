@@ -69,6 +69,7 @@ group :development, :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "factory_bot_rails"
+  gem 'webmock', '~> 2.1'
 end
 
 group :development do

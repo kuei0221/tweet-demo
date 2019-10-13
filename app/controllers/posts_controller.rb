@@ -16,7 +16,7 @@ class PostsController < ApplicationController
       flash[:success] = "Create Post success"
       redirect_to root_url
     else
-      @feeds_collecion = current_user.feed.includes(:liked_users, user: {avatar_attachment: :blob})
+      @feeds_collection = current_user.feed.includes(:liked_users, user: {avatar_attachment: :blob})
       @pagy, @feeds = pagy(@feeds_collection)
       flash[:danger] = "Invalid post"
       redirect_back fallback_location: root_url

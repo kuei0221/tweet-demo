@@ -10,7 +10,7 @@ class OauthLogger < ApplicationService
     if is_correct_provider?
       @setting = find_setting_by_provider
     else
-      raise "Provider not found"
+      raise ArgumentError.new("Provider not found")
       return false
     end
 
@@ -39,13 +39,19 @@ class OauthLogger < ApplicationService
 
   def construct_response(res)
     res = JSON.parse(res)
-    @setting[:response_hash].call(res)
+    form_response = @setting[:response_hash].call(res)
+    return form_response if check_response form_response
+  end
+
+  def check_response res_hash
+    res_hash.any?{ |k,v| return false if v.nil? }
+    true
   end
 
   def request_query
     query = { @setting[:token_name] => @token }
     if @setting[:fields].present?
-      qurey.merge({ fields: @setting[:fields] })
+      query.merge({ fields: @setting[:fields] })
     else
       query
     end
