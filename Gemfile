@@ -54,6 +54,7 @@ gem "pg"
 gem "faker"
 gem 'mailgun-ruby', '~>1.1.6'
 gem "rest-client"
+gem "pusher"
 
 group :production do
   gem "aws-sdk", '~> 3', require: false
@@ -69,7 +70,7 @@ group :development, :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "factory_bot_rails"
-  gem 'webmock', '~> 2.1'
+  gem 'webmock'
 end
 
 group :development do

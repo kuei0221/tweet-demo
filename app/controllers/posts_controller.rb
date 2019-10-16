@@ -12,14 +12,15 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-    if @post.save
-      flash[:success] = "Create Post success"
-      redirect_to root_url
-    else
-      @feeds_collection = current_user.feed.includes(:liked_users, user: {avatar_attachment: :blob})
-      @pagy, @feeds = pagy(@feeds_collection)
-      flash[:danger] = "Invalid post"
-      redirect_back fallback_location: root_url
+    respond_to do |format|
+      if @post.save
+        flash[:success] = "Create Post success"
+        format.js
+        format.html { redirect_to root_url }
+      else
+        flash[:danger] = "Invalid post"
+        format.html {redirect_back fallback_location: root_url}
+      end
     end
   end
 

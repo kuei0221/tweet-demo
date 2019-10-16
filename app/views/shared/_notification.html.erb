@@ -1,0 +1,13 @@
+<% bg_color = notification.new? ? "bg-light" : "bg-white" %>
+<div class="dropdown-item py-0 <%= bg_color %>">
+  <div class="row">
+    <div class="col-2 pl-0">
+      <%= show_avatar notification.user, nil, "height: 50px; width: 50px"%>
+    </div>
+    <div class="col-10">
+      <%= link_to notification.message, notification.micropost %>
+      <p class="text-left"><small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small></p>
+    </div>
+  </div>
+</div>
+<div class="dropdown-divider mt-0"></div>

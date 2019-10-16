@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_04_064254) do
+ActiveRecord::Schema.define(version: 2019_10_15_055905) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,18 @@ ActiveRecord::Schema.define(version: 2019_10_04_064254) do
     t.index ["user_id"], name: "index_microposts_on_user_id"
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "micropost_id"
+    t.string "action"
+    t.string "feeder"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "new", default: true
+    t.index ["micropost_id"], name: "index_notifications_on_micropost_id"
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "relationships", force: :cascade do |t|
     t.integer "follower_id"
     t.integer "followed_id"
@@ -109,4 +121,6 @@ ActiveRecord::Schema.define(version: 2019_10_04_064254) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "identities", "users"
   add_foreign_key "microposts", "users"
+  add_foreign_key "notifications", "microposts"
+  add_foreign_key "notifications", "users"
 end

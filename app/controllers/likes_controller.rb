@@ -8,6 +8,8 @@ class LikesController < ApplicationController
 
       if check_like == "like"
         current_user.like @micropost
+        @notification = Notification.create(user: @micropost.user, micropost: @micropost, action: "like", feeder: current_user.name)
+        Pusher["user-#{@micropost.user.id}"].trigger("event", { "event": "should show message"})
         format.js
       elsif check_like == "unlike"
         current_user.unlike @micropost

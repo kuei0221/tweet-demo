@@ -1,4 +1,4 @@
-<%= form_for(@post, url: posts_path) do |f| %>
+<%= form_for(@post, url: posts_path, remote: true) do |f| %>
 
   <%= f.text_area :content, class: "form-control", placeholder: "New Post" %>
 

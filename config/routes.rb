@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root "static_pages#home"
   get "/help", to: "static_pages#help"
@@ -31,4 +32,8 @@ Rails.application.routes.draw do
   resources :account_activations, only: :edit
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :relationships, only: [:create, :destroy]
+  # resources :notifications, only: [:index, :update, :show]
+  get "/notifications", to: "notifications#index"
+  get "/notifications/show", to: "notifications#show"
+  patch "/notifications/update", to: "notifications#update"
 end

@@ -18,6 +18,9 @@ class User < ApplicationRecord
   #association with like
   has_many :likes, dependent: :destroy
   has_many :liked_posts, through: :likes, source: :micropost #not used now
+
+  #association with notification
+  has_many :notifications, dependent: :destroy
   
   #user info setting
   has_one_attached :avatar

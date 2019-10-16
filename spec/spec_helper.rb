@@ -15,8 +15,7 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true)
-
-
+require "hashdiff"
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -111,16 +110,21 @@ RSpec.configure do |config|
       }')
     
     stub_request(:get, /oauth2.googleapis.com/).
-    with(headers: {'Accept': '*/*', 'User-Agent': 'rest-client/2.0.2 (linux-gnu x86_64) ruby/2.6.3p62'}).
-    to_return(status: 200, headers: {}, body: '{
-      "name": "testing-name",
-      "email": "testing-email@email.com",
-      "sub": "testing-google-uid",
-      "picture":  "https://robohash.org/inexpeditaveniam.png?size=300x300&set=set1"
-    }')
+      with(headers: {'Accept': '*/*', 'User-Agent': 'rest-client/2.0.2 (linux-gnu x86_64) ruby/2.6.3p62'}).
+      to_return(status: 200, headers: {}, body: '{
+        "name": "testing-name",
+        "email": "testing-email@email.com",
+        "sub": "testing-google-uid",
+        "picture":  "https://robohash.org/inexpeditaveniam.png?size=300x300&set=set1"
+      }')
     
     stub_request(:get, /robohash.org/).
       with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Ruby'}).
+      to_return(:status => 200, :body => "", :headers => {})
+    
+    stub_request(:post, /api-mt1.pusher.com/).
+      with(:body => "{\"name\":\"event\",\"channels\":[\"user-9249\"],\"data\":\"{\\\"event\\\":\\\"should show message\\\"}\"}",
+          :headers => {'Accept'=>'*/*', 'Content-Type'=>'application/json', 'Date'=>'Wed, 16 Oct 2019 07:32:01 GMT', 'User-Agent'=>'HTTPClient/1.0 (2.8.3, ruby 2.6.3 (2019-04-16))', 'X-Pusher-Library'=>'pusher-http-ruby 1.3.3'}).
       to_return(:status => 200, :body => "", :headers => {})
   end
 end

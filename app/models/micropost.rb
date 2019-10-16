@@ -4,6 +4,8 @@ class Micropost < ApplicationRecord
   has_many :likes
   has_many :liked_users, through: :likes, source: :user
 
+  has_many :notifications, dependent: :destroy
+
   has_one_attached :picture
 
   scope :feed, -> (user) { where("user_id IN (?) or user_id = ? ", user.following_ids, user.id) }

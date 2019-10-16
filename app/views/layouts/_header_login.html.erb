@@ -6,3 +6,10 @@
     <%= link_to "Logout", logout_path, method: "delete", class:"dropdown-item" %>
   </div>
 </li>
+
+<li class="nav-item dropdown ml-auto">
+  <a class="nav-link dropdown-toggle" id="notification_button" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Notification: <span><%= current_user.notifications.unread.size%></span></a>
+  <div class="dropdown-menu dropdown-menu-right" id="notification_box">
+    <button class="dropdown-item text-center py-0" id="loadmore-button">Load more</button>
+  </div>
+</li>

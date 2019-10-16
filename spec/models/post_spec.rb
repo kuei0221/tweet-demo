@@ -1,4 +1,5 @@
 require "rails_helper"
+require "pusher"
 
 RSpec.describe Post, type: :models do
   describe "::create" do
