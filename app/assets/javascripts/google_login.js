@@ -1,3 +1,4 @@
+ console.log("load goolge_login")
  var clicked=false
 
  //if not set clicklogin with onclick, onSignIn will auto run if your google is already login(onsuccess)

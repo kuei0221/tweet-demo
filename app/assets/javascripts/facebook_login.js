@@ -16,6 +16,7 @@ function checkLoginState() {               // Called when a person is finished w
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
+
 window.fbAsyncInit = function() {
   console.log("start fb init");
   var appid=$("meta[name='facebook-signin-client_id']").attr("content");
@@ -26,8 +27,6 @@ window.fbAsyncInit = function() {
     version    : 'v4.0'           // Use this Graph API version for this call.
   });
 };
-
-
 
 var postFaceBookSignin = function(response){  
   console.log("facebook ajax action start");

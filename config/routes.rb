@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   resources :password_resets, only: [:new, :create, :edit, :update]
   resources :relationships, only: [:create, :destroy]
   # resources :notifications, only: [:index, :update, :show]
+  get "/notification", to: "notifications#new"
   get "/notifications", to: "notifications#index"
   get "/notifications/show", to: "notifications#show"
   patch "/notifications/update", to: "notifications#update"

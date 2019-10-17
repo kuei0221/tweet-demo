@@ -18,6 +18,8 @@
 //= require clipboard.min
 //= require turbolinks
 //= require_tree .
+//= stub facebook_login
+//= stub google_login
 
 $.ajaxSetup({
   headers: {

@@ -2,7 +2,9 @@
 <div class="dropdown-item py-0 <%= bg_color %>">
   <div class="row">
     <div class="col-2 pl-0">
-      <%= show_avatar notification.user, nil, "height: 50px; width: 50px"%>
+      <% if notification.feeder_avatar.attached? %>
+        <%= image_tag notification.feeder_avatar, style: "height: 50px; width: 50px" %>
+      <% end %>
     </div>
     <div class="col-10">
       <%= link_to notification.message, notification.micropost %>

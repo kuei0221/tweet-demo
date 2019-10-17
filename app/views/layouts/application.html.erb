@@ -6,18 +6,6 @@
     <title><%= full_title(yield(:title)) %></title>
     <%= render "layouts/rails_default" %>
     <script src="//js.pusher.com/4.4/pusher.min.js"></script>
-    <% if login? %>
-      <script>
-        console.log("Set pusher variable and subscribe to channel")
-        var pusher = new Pusher("<%= Pusher.key %>");
-        var channel = pusher.subscribe("user-<%= current_user.id %>");
-        channel.bind("event", function(data) {
-          console.log("Catch Publish message");
-          $("#notification_box").prepend(data.event);
-          $("#notification_button span").html( UnreadNotification() + 1);
-        });
-      </script>
-    <% end %>
   </head>
 
   <body style="width: 1280px; height: 550px">
