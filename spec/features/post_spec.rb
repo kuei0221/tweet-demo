@@ -4,7 +4,7 @@ include FeaturesHelper
 
 #js: true, driver: :selenium_chrome not working yet
 RSpec.feature "create new post", type: :feature do
-  let!(:user) { create(:user_with_posts) }
+  let!(:user) { create(:user_with_posts, id: "9999") }
   let!(:other_user) { create(:user_with_posts) }
   scenario "create new post" do
 

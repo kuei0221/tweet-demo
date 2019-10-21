@@ -15,7 +15,6 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true)
-require "hashdiff"
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -123,8 +122,6 @@ RSpec.configure do |config|
       to_return(:status => 200, :body => "", :headers => {})
     
     stub_request(:post, /api-mt1.pusher.com/).
-      with(:body => "{\"name\":\"event\",\"channels\":[\"user-9249\"],\"data\":\"{\\\"event\\\":\\\"should show message\\\"}\"}",
-          :headers => {'Accept'=>'*/*', 'Content-Type'=>'application/json', 'Date'=>'Wed, 16 Oct 2019 07:32:01 GMT', 'User-Agent'=>'HTTPClient/1.0 (2.8.3, ruby 2.6.3 (2019-04-16))', 'X-Pusher-Library'=>'pusher-http-ruby 1.3.3'}).
-      to_return(:status => 200, :body => "", :headers => {})
+      to_return(:status => 200, :body => '{"success": "true"}', :headers => {})
   end
 end
