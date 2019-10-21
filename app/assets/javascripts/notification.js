@@ -38,12 +38,6 @@ function GetNotification(){
   });
 };
 
-function DisableLoadButton(){
-  $("#loadmore-button").change(function(){
-
-  })
-}
-
 $(document).on("turbolinks:load", function(){
   var loader = 0
   $("#loadmore-button").on("click", function(e){

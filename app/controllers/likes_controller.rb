@@ -5,7 +5,6 @@ class LikesController < ApplicationController
   def update
 
     respond_to do |format|
-
       if check_like == "like"
         current_user.like @micropost
         @notification = Notification.create(user: @micropost.user, micropost: @micropost, action: "like", feeder: current_user.name)
