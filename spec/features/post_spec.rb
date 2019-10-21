@@ -7,7 +7,6 @@ RSpec.feature "create new post", type: :feature do
   let!(:user) { create(:user_with_posts, id: "9999") }
   let!(:other_user) { create(:user_with_posts) }
   scenario "create new post" do
-
     login_process user
   
     fill_in placeholder: "New Post", with: ""
@@ -15,11 +14,11 @@ RSpec.feature "create new post", type: :feature do
     expect(page).to have_text "Invalid"
     expect(page).to have_current_path root_url
 
-    fill_in placeholder: "New Post", with: "Some content"
-    click_button "Create new post"
-    expect(page).to have_text "success"
-    expect(page).to have_current_path root_url
-    expect(page).to have_text "Some content"
+    # fill_in placeholder: "New Post", with: "Some content"
+    # click_button "Create new post"
+    # expect(page).to have_text "success"
+    # expect(page).to have_current_path root_url
+    # expect(page).to have_text "Some content"
 
     expect(page).to have_css "#like_button #like-icon"
     expect(page).to have_css "#share_form #share-icon"

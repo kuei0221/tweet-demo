@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :micropost do
     association :user
-    id { Random.rand(1..10000) }
+    # id { Random.rand(1..10000) }
+    sequence(:id) { |number| number } 
     content { Faker::Lorem.sentence(word_count: 5) }
 
     factory :post, class: Post do

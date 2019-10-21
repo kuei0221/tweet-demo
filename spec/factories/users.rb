@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :user, aliases: [:follower, :following] do
-    id { Random.rand(1..10000) }
+    # id { Random.rand(1..10000) }
+    sequence(:id) { |number| number } 
     name { Faker::Name.name }
     email { Faker::Internet.email }
     password {"password"}

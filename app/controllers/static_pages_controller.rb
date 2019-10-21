@@ -2,7 +2,7 @@ class StaticPagesController < ApplicationController
   
   def home
     if login?
-      @post = current_user.posts.build
+      @post = Post.new
       @share = current_user.share
       @comment = current_user.comment
       @feeds_collection = current_user.feed
