@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   def index
     @users_collection = User.with_attached_avatar
     @pagy, @users = pagy(@users_collection)
-    @current_user = User.with_attached_avatar.includes(:following).find(current_user.id) if login?
+    @current_user = User.includes(:following).find(current_user.id) if login?
   end
   
   def show

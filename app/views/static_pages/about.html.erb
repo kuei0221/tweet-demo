@@ -1,2 +1,54 @@
 <% provide(:title, "About") %>
-<h1>about</h1>
+<h2>About This Website</h2>
+
+<div id="introduction" class="my-5">
+  <a href="https://travis-ci.org/kuei0221/tweet-demo"><img src="https://travis-ci.org/kuei0221/tweet-demo.svg?branch=master"></a>
+  <p>This is a Twitter website mocking project, focusing on rebuilding the commonlu used function in the social website.</p>
+  <p>The project is started by following the instruction of the book: Ruby on Rail Tutorial written by Michael Hartl, and then implementing various external service to fulfill the completence.</p>
+  <p>This project is only for academic research, not for any commerical usage.</p>
+</div>
+
+<div id="features" class="my-5">
+  <h3>Features: </h3>
+  <ul>
+    <li>Manually built user system based on the understanding of session and cookies.</li>
+    <li>Mailing is allowed through Mailgun service when user authorizing and password reset.</li>
+    <li>User is enabled to create their post, and also can like, share and comment on the post. The link of the post is also provided.</li>
+    <li>User can follow other users to get other users' post in their home page.</li>
+    <li>User can upload their own avatar when creating account or uploading. If no avatar when creating, attaching default avatar instead.</li>
+    <li>Allow login through Facebook or Google account with oauth2 authenticating process.</li>
+    <li>
+      <h6>Notification system build with Pusher</h6>
+      <ul>
+        <li>Realtime notifnication push when other user does action on their post. (currently just like)</li>
+        <li>Showing how much unread notification, and clear the counting once read.</li>
+        <li>Can view through their own notification history.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div id="environment" class="my-5">
+
+  <h3>Environment: </h3>
+  <ul>
+    <li>Rails 5.2.3</li>
+    <li>Ruby 2.6.3</li>
+    <li>RVM 1.29.9</li>
+    <li>Ubuntu 18.04.3 LTS under Win10</li>
+    <li>
+      <h6>Service</h6>
+      <ul>
+        <li><a href="https://www.heroku.com/">Heroku</a> for deployment</li>
+        <li><a href="https://www.postgresql.org/">postgresql</a> as database</li>
+        <li><a href="https://developers.facebook.com/">Facebook</a> and <a href="https://developers.google.com/identity/choose-auth">Google</a> for oauth2 login</li>
+        <li><a href="https://aws.amazon.com/tw/s3/">Amazon S3</a> as image storage</li>
+        <li><a href="https://www.mailgun.com/">Mailgun</a> for mailing</li>
+        <li><a href="https://pusher.com/">Pusher</a> for notification</li>
+        <li><a href="https://enterprise.travis-ci.com/">Travis-ci</a> for CI </li>
+        <li><a href="https://github.com/">git</a> for version control</li>
+        <li><a href="https://www.privacypolicies.com">privacypolicies</a> for privacy</li>
+      </ul>
+    </li>
+  </ul>
+</div>

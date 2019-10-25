@@ -24,7 +24,7 @@ RSpec.describe "oath_logger", type: :request do
   context "with invalid data" do
     it "should fail with invalid provider" do
       @provider = "invalid_provider"
-      post oauth_path(@provider), params: { token: "valid_token"}
+      post oauth_path(@provider), params: { token: "valid_token", format: :js}
       expect(is_logged_in?).to be false
       expect(flash[:danger]).to eq "Login fail with #{@provider}"
       expect(response.body).to include "window.location = '#{login_path}'"
@@ -39,7 +39,7 @@ RSpec.describe "oath_logger", type: :request do
         @uid = "testing-#{provider}-uid"
       end
       it "should success login without any other setting" do
-        post oauth_path(@provider), params: { token: @token } 
+        post oauth_path(@provider), params: { token: @token, format: :js} 
         expect(is_logged_in?).to be true
         expect(response.body).to include "window.location = '#{root_path}'"
       end
@@ -48,7 +48,7 @@ RSpec.describe "oath_logger", type: :request do
         let(:user) { create(:user) }
         it "should login straigthly" do
           user.identities.create!(provider: @provider, uid: @uid)
-          post oauth_path(@provider), params: { token: @token } 
+          post oauth_path(@provider), params: { token: @token, format: :js} 
           expect(is_logged_in?).to be true
           expect(flash[:notice]).to eq "You have connected with #{@provider.capitalize} already."
         end
@@ -59,7 +59,7 @@ RSpec.describe "oath_logger", type: :request do
           @user = create(:user, email: "testing-email@email.com")
         end
         it "should login as email's user and build connection" do
-          post oauth_path(@provider), params: { token: @token }
+          post oauth_path(@provider), params: { token: @token, format: :js}
           expect(User.find_by(email: "testing-email@email.com")).to be_present
           expect(@user.reload.identities.find_by(provider: @provider, uid: @uid)).to be_present
           expect(is_logged_in?).to be true
@@ -69,7 +69,7 @@ RSpec.describe "oath_logger", type: :request do
       
       context "without any setting" do
         it "it should login and create new user with identities" do
-          post oauth_path(@provider), params: { token: @token }
+          post oauth_path(@provider), params: { token: @token, format: :js}
           expect(User.find_by(email: "testing-email@email.com")).to be_present
           expect(Identity.find_by(provider: @provider, uid: @uid)).to be_present
           expect(is_logged_in?).to be true

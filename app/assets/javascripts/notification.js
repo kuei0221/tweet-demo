@@ -20,12 +20,12 @@ function ReadNotification(){
   }
 };
 
-function LoadMoreNotification(loader){
+function LoadMoreNotification(){
   $.ajax({
     url: window.location.origin + "/notifications/show" ,
     type: "GET",
     dataType: "script",
-    data: {"loader": loader}
+    data: {"oldest_id": GetOldestNotificationId()}
   });
 };
 
@@ -38,15 +38,17 @@ function GetNotification(){
   });
 };
 
+function GetOldestNotificationId(){
+  return $("#notification_box .notifications").last().attr("id");
+}
+
 $(document).on("turbolinks:load", function(){
-  var loader = 0
   $("#loadmore-button").on("click", function(e){
     e.preventDefault(); 
     e.stopPropagation();
     if($("#loadmore-button").html() != "No More Notification"){
       console.log("loadmore");
-      loader += 1;
-      LoadMoreNotification(loader);  
+      LoadMoreNotification();  
     } else {
       console.log("stop load more");
     }

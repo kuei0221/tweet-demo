@@ -3,25 +3,19 @@ class LikesController < ApplicationController
   before_action :find_micropost
   
   def update
-
     respond_to do |format|
       if check_like == "like"
         current_user.like @micropost
-        @notification = Notification.create(user: @micropost.user, micropost: @micropost, action: "like", feeder: current_user.name)
-        @notification.feeder_avatar.attach(current_user.avatar_blob)
-        data = {"event": "Should Show message"}.to_json
-        Pusher["user-#{@micropost.user.id}"].trigger("event", data )
         format.js
+        push_notification @micropost
       elsif check_like == "unlike"
         current_user.unlike @micropost
         format.js
       else
         flash[:danger] = "Problem occurred when #{params[:like_action]}"
       end
-
       format.html { redirect_back fallback_location: root_path }
     end
-
   end
   
   private
@@ -34,16 +28,19 @@ class LikesController < ApplicationController
   end
 
   def check_like
-
-    if params[:like_action].present?
-      if params[:like_action] == "like" && !is_post_liked?
-        return "like"
-      elsif params[:like_action] == "unlike" && is_post_liked?
-        return "unlike"
-      else
-        return false
-      end
+    if params[:like_action] == "like" && !is_post_liked?
+      "like"
+    elsif params[:like_action] == "unlike" && is_post_liked?
+      "unlike"
+    else
+      false
     end
-
   end
+
+  def push_notification(micropost)
+    notification = Notification.create(user: micropost.user, micropost: micropost, action: "like", feeder: current_user.name, feeder_avatar_blob: current_user.avatar_blob)
+    data = {"event": "show some message"}
+    Pusher["user-#{micropost.user.id}"].trigger("event", data )
+  end
+
 end

@@ -3,6 +3,15 @@ var pusher = new Pusher("<%= Pusher.key %>");
 var channel = pusher.subscribe("user-<%= current_user.id %>");
 channel.bind("event", function(data) {
   console.log("Catch Publish message");
-  $("#notification_box").prepend(data.event);
   $("#notification_button span").html( UnreadNotification() + 1);
+  GetNewestNotification();
 });
+
+function GetNewestNotification(){
+  $.ajax({
+    url: window.location.origin + "/notifications",
+    method: "GET",
+    dataType: "script",
+    data: {"new": true}
+  });
+}

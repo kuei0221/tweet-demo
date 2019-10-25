@@ -841,6 +841,9 @@ GEM
       popper_js (>= 1.14.3, < 2)
       sassc-rails (>= 2.0.0)
     builder (3.2.3)
+    bullet (6.0.2)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     byebug (11.0.1)
     capybara (3.29.0)
       addressable
@@ -1095,6 +1098,7 @@ GEM
       unf_ext
     unf (0.1.4-java)
     unf_ext (0.0.7.6)
+    uniform_notifier (1.13.0)
     unsplash (2.0.1)
       httparty (~> 0.16)
       oauth2 (~> 1)
@@ -1127,6 +1131,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   bootstrap (~> 4.3.1)
+  bullet
   byebug
   capybara
   coffee-rails (~> 4.2)

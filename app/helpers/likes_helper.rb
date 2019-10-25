@@ -12,12 +12,10 @@ module LikesHelper
   end
 
   def like_button(micropost)
-
     params = like_button_params micropost
     link_to like_post_path(micropost.id, like_action: params[:like_action]), method: "patch", class: "btn", remote: true do
       fa_icon "heart", text: micropost.likes_count, style: "color: #{params[:color]}", id: "like-icon"
     end
-
   end
 
 end

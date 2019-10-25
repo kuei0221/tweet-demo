@@ -33,8 +33,14 @@ var postFaceBookSignin = function(response){
   $.ajax({
     url: window.location.origin + "/oauth/facebook",
     type: "POST",
-    datatype: "json",
+    dataType: "script",
     contentType: "application/json",
     data: JSON.stringify({token: response.authResponse.accessToken})
   })
+  .done(function(){
+    console.log("Login by facebook done. Now redirect to Home");
+  })
+  .fail(function(){
+    console.log("Login by facebook failed. Now redirect to login page")
+  });
 };

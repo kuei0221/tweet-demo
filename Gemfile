@@ -71,6 +71,7 @@ group :development, :test do
   gem "selenium-webdriver"
   gem "factory_bot_rails"
   gem 'webmock', ">= 3.6.0"
+  gem 'bullet'
 end
 
 group :development do

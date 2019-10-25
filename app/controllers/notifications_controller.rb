@@ -1,12 +1,15 @@
 class NotificationsController < ApplicationController
 
+  # load notifications content
   def index
-    @notifications = current_user.notifications.with_attached_feeder_avatar.includes(:micropost).limit(5).desc_time_order if login?
+    loader = params["new"] == "true" ? 1 : 5
+    @notifications = current_user.notifications.with_post_info.desc_time_order.limit(loader) if login?
     respond_to do |format|
       format.js
     end
   end
 
+  #initial pusher connection
   def new
     respond_to do |format|
       if login? && current_user
@@ -17,22 +20,24 @@ class NotificationsController < ApplicationController
     end
   end
 
+  #Read notification
   def update
     user = User.find_by(id: current_user.id)
     user.notifications.unread.read if user.present?
   end
   
+  #load more notification
   def show
     user = User.find_by(id: current_user.id)
-    loader = params[:loader].to_i
-    loading_notifications = 3
-    loaded_notifications = 5 + (loader-1) * loading_notifications
+    oldest_id = params[:oldest_id].to_i
     if user
-      @more_notifications = user.notifications.with_attached_feeder_avatar.includes(:micropost).desc_time_order.offset(loaded_notifications).limit(loading_notifications)
+      @more_notifications = user
+      .notifications
+      .with_post_info
+      .load_history(oldest_id)
     end
     respond_to do |format|
       format.js
     end
   end
-
 end
