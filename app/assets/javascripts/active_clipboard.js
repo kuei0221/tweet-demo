@@ -1,4 +1,4 @@
-$(document).on('turbolinks:load', function(){
+$(document).ready(function(){
   var clipboard = new ClipboardJS('.clipboard');
 
   clipboard.on('success', function(e) {

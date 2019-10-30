@@ -10,16 +10,15 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+
 //= require rails-ujs
 //= require jquery
 //= require popper
 //= require bootstrap-sprockets
 //= require activestorage
 //= require clipboard.min
-//= require turbolinks
 //= require_tree .
-//= stub facebook_login
-//= stub google_login
+
 
 $.ajaxSetup({
   headers: {

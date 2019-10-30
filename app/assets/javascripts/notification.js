@@ -42,7 +42,7 @@ function GetOldestNotificationId(){
   return $("#notification_box .notifications").last().attr("id");
 }
 
-$(document).on("turbolinks:load", function(){
+$(document).ready(function(){
   $("#loadmore-button").on("click", function(e){
     e.preventDefault(); 
     e.stopPropagation();

@@ -855,13 +855,6 @@ GEM
       xpath (~> 3.2)
     childprocess (2.0.0)
       rake (< 13.0)
-    coffee-rails (4.2.2)
-      coffee-script (>= 2.2.0)
-      railties (>= 4.0.0)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.12.2)
     concurrent-ruby (1.1.5)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
@@ -1085,9 +1078,6 @@ GEM
     thread_safe (0.3.6)
     thread_safe (0.3.6-java)
     tilt (2.0.10)
-    turbolinks (5.2.1)
-      turbolinks-source (~> 5.2)
-    turbolinks-source (5.2.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     tzinfo-data (1.2019.3)
@@ -1134,7 +1124,6 @@ DEPENDENCIES
   bullet
   byebug
   capybara
-  coffee-rails (~> 4.2)
   database_cleaner
   factory_bot_rails
   faker
@@ -1158,7 +1147,6 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets-rails (>= 2.3.2)
-  turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)
   unsplash

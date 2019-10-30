@@ -1,6 +1,9 @@
 <meta name="facebook-signin-client_id" content="<%= ENV["FACEBOOK_KEY"]%>">
-<%= javascript_include_tag "facebook_login.js" %>
 
-<div class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false">
+<!-- <div class="fb-login-button" scope="public_profile,email" onlogin="checkLoginState();" data-size="large" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false">
   Log in
-</div>
+</div> -->
+
+<button class=" btn" onclick="fbLogin()" style="background-color: #3b5998;">
+  <p class="text-white m-0">FB Login</p>
+</button>

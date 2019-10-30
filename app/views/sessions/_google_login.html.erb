@@ -1,6 +1,5 @@
 <meta name="google-signin-scope" content="profile email">
 <meta name="google-signin-client_id" content="<%= ENV["GOOGLE_KEY"]%>">
-<script src="https://apis.google.com/js/platform.js" async defer></script>
-<%= javascript_include_tag "google_login.js" %>
+
 
 <div class="g-signin2" onclick="ClickLogin()" data-onsuccess="onSignIn" data-theme="dark"  data-width="140" data-height="40"></div>

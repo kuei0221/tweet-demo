@@ -3,6 +3,11 @@ module LoginHelper
     !session[:user_id].nil?
   end
 
+  def login(user)
+    session ||= {}
+    session[:user_id] = user.id
+  end
+
   def is_rememberred?(user)
     cookies[:remember_token].present? &&
     user.remember_digest.present? && 
