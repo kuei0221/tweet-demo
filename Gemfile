@@ -13,7 +13,7 @@ gem 'bootstrap', "~> 4.3.1"
 gem "jquery-rails"
 gem 'pagy', '~> 3.5'
 gem "sprockets-rails", ">= 2.3.2"
-gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.12'
 gem "font-awesome-rails"
 gem "unsplash"
 
